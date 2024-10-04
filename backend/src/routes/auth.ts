@@ -3,6 +3,7 @@ import  bcrypt  from 'bcryptjs';
 import express, {Request,Response} from "express"
 import {check, validationResult} from "express-validator"
 import User from "../models/user"
+import verifyToken from '../middleware/auth';
 
 const router = express.Router();
 
@@ -38,5 +39,9 @@ router.post("/login", [ check("email", "Email is required").isEmail(),
          res.status(500).json({message:"Something went wrong"})
     }
 });
+
+router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
+   res.status(200).send({ userId: req.userId });
+ });
 
 export default router;
