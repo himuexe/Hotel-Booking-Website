@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 
 export const SearchBar = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();   
   const search = useSearchContext();
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
