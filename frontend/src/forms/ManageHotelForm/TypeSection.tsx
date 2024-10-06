@@ -17,7 +17,7 @@ const TypeSection = () => {
       <div className="grid grid-cols-5 gap-2">
         {hotelTypes.map((type) => (
           <label
-          key={type}
+            key={type}
             className={
               typeWatch === type
                 ? "cursor-pointer bg-blue-300 text-sm rounded-full px-4 py-2 font-semibold"
@@ -27,13 +27,12 @@ const TypeSection = () => {
             <input
               type="radio"
               value={type}
-              
               {...register("type", {
                 required: "This field is required",
               })}
               className="hidden"
             />
-            <span >{type}</span>
+            <span>{type}</span>
           </label>
         ))}
       </div>

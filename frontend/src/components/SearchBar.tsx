@@ -5,9 +5,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 
-export const SearchBar = () => {
-  const navigate = useNavigate();   
+const SearchBar = () => {
+  const navigate = useNavigate();
   const search = useSearchContext();
+
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
   const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
@@ -25,15 +26,17 @@ export const SearchBar = () => {
     );
     navigate("/search");
   };
+
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
+
   return (
     <form
       onSubmit={handleSubmit}
       className="-mt-8 p-3 bg-orange-400 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4"
     >
-      <div className="flex  flex-row items-center flex-1 bg-white p-2">
+      <div className="flex flex-row items-center flex-1 bg-white p-2">
         <MdTravelExplore size={25} className="mr-2" />
         <input
           placeholder="Where are you going?"
@@ -67,7 +70,7 @@ export const SearchBar = () => {
           />
         </label>
       </div>
-      <div className="">
+      <div>
         <DatePicker
           selected={checkIn}
           onChange={(date) => setCheckIn(date as Date)}
@@ -76,12 +79,12 @@ export const SearchBar = () => {
           endDate={checkOut}
           minDate={minDate}
           maxDate={maxDate}
-          placeholderText="Check-In Date"
+          placeholderText="Check-in Date"
           className="min-w-full bg-white p-2 focus:outline-none"
           wrapperClassName="min-w-full"
         />
       </div>
-      <div className="">
+      <div>
         <DatePicker
           selected={checkOut}
           onChange={(date) => setCheckOut(date as Date)}
@@ -90,7 +93,7 @@ export const SearchBar = () => {
           endDate={checkOut}
           minDate={minDate}
           maxDate={maxDate}
-          placeholderText="Check-In Date"
+          placeholderText="Check-out Date"
           className="min-w-full bg-white p-2 focus:outline-none"
           wrapperClassName="min-w-full"
         />
@@ -106,4 +109,5 @@ export const SearchBar = () => {
     </form>
   );
 };
+
 export default SearchBar;

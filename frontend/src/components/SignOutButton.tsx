@@ -3,7 +3,7 @@ import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 
 const SignOutButton = () => {
-  const queryClient = useQueryClient(); 
+  const queryClient = useQueryClient();
   const { showToast } = useAppContext();
 
   const mutation = useMutation(apiClient.signOut, {
