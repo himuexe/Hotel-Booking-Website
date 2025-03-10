@@ -114,8 +114,8 @@ const Search = () => {
             </option>
           </select>
         </div>
-        {hotelData?.data.map((hotel) => (
-          <SearchResultsCard hotel={hotel} />
+        {hotelData?.data.map((hotel, index) => (
+          <SearchResultsCard key={index} hotel={hotel} />
         ))}
         <div>
           <Pagination
