@@ -1,129 +1,158 @@
-# This repository is open to contributions ❤️
-# Please feel free to submit a pull request if you have any ideas or suggestions. 🤗
-# Leave a ⭐ if it helped you.
+# Vacays App - Hotel Booking Website 🏨
 
-# Features of Vacays App
-1.Responsive
-2.Pagination
-3.Search Functionality
-4.Automated Tests
+Welcome to the **Vacays App**, a modern and responsive hotel booking platform designed to make your travel planning seamless and enjoyable. This project is open to contributions, and we welcome any ideas or suggestions to improve it. If you find this project helpful, don't forget to leave a ⭐!
 
-# Setting Up the Vacays App
+---
 
-This guide will walk you through the process of setting up the  App on your local machine.
+## Features ✨
 
-## Prerequisites
+- **Responsive Design**: Works flawlessly on all devices, from desktops to mobile phones.
+- **Pagination**: Easily navigate through large lists of hotels.
+- **Search Functionality**: Quickly find hotels based on your preferences.
+- **Automated Tests**: Ensures the app is reliable and bug-free.
 
-Before you begin, ensure you have Node.js installed on your system.
+---
+
+## Setting Up the Vacays App 🛠️
+
+This guide will walk you through the process of setting up the Vacays App on your local machine.
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: Download and install from [here](https://nodejs.org/).
+
+---
 
 ## Cloning the Repository
 
-Start by cloning the repository to your local machine:
+1. Clone the repository to your local machine:
 
-```bash
-git clone https://github.com/himuexe/Hotel-Booking-Website.git
- cd Hotel-Booking-Website
-```
+   ```bash
+   git clone https://github.com/himuexe/Hotel-Booking-Website.git
+   cd Hotel-Booking-Website
+   ```
 
-## Backend Configuration
+---
 
-1. **Environment Files**: Navigate to the `backend` folder and create two files: `.env` and `.env.e2e`. Add the following contents to both files:
+## Backend Configuration ⚙️
 
-    ```plaintext
-    MONGODB_CONNECTION_STRING=
+1. **Environment Files**:
+   - Navigate to the `backend` folder and create two files: `.env` and `.env.e2e`.
+   - Add the following content to both files:
 
-    JWT_SECRET_KEY=
-    FRONTEND_URL=
+     ```plaintext
+     MONGODB_CONNECTION_STRING=
+     JWT_SECRET_KEY=
+     FRONTEND_URL=
 
-    # Cloudinary Variables
-    CLOUDINARY_CLOUD_NAME=
-    CLOUDINARY_API_KEY=
-    CLOUDINARY_API_SECRET=
+     # Cloudinary Variables
+     CLOUDINARY_CLOUD_NAME=
+     CLOUDINARY_API_KEY=
+     CLOUDINARY_API_SECRET=
 
-    # Stripe
-    STRIPE_API_KEY=
-    ```
+     # Stripe
+     STRIPE_API_KEY=
+     ```
 
-2. **MongoDB Setup**: 
-    - Sign up for an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-    - Create a new cluster and follow the instructions to set up a new database.
-    - Once set up, obtain your MongoDB connection string and add it to the `MONGODB_CONNECTION_STRING` variable in your `.env` files.
-    - For the `.env.e2e` setup see "running automated tests" below
+2. **MongoDB Setup**:
+   - Sign up for an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+   - Create a new cluster and database.
+   - Add your MongoDB connection string to the `MONGODB_CONNECTION_STRING` variable in your `.env` files.
 
 3. **Cloudinary Setup**:
-    - Create an account at [Cloudinary](https://cloudinary.com/).
-    - Navigate to your dashboard to find your cloud name, API key, and API secret.
-    - Add these details to the respective `CLOUDINARY_*` variables in your `.env` files.
+   - Create an account at [Cloudinary](https://cloudinary.com/).
+   - Add your Cloudinary credentials (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`) to the `.env` files.
 
 4. **Stripe Setup**:
-    - Sign up for a Stripe account at [Stripe](https://stripe.com/).
-    - Find your API keys in the Stripe dashboard.
-    - Add your Stripe API key to the `STRIPE_API_KEY` variable in your `.env` files.
-  
-5. **JWT_SECRET_KEY**:
-    - This just needs to be any long, random string. You can google "secret key generator".
+   - Sign up for a Stripe account at [Stripe](https://stripe.com/).
+   - Add your Stripe API key to the `STRIPE_API_KEY` variable in the `.env` files.
 
-7. **Frontend URL**:
-    - The `FRONTEND_URL` should point to the URL where your frontend application is running (typically `http://localhost:5173` if you're running it locally).
-  
+5. **JWT Secret Key**:
+   - Generate a random string for `JWT_SECRET_KEY` (you can use an online secret key generator).
 
-## Frontend Configuration
+6. **Frontend URL**:
+   - Set `FRONTEND_URL` to `http://localhost:5173` for local development.
 
-1. **Environment Files**: Navigate to the `frontend` folder and create a file: `.env`:
+---
 
-    ```plaintext
-    VITE_API_BASE_URL=
-    VITE_STRIPE_PUB_KEY=
-    ```
+## Frontend Configuration 🖥️
 
-5. **VITE_API_BASE_URLL**:
-    - The `VITE_API_BASE_URL` should point to the URL where your backend application is running (typically `http://localhost:7000` if you're running it locally).
+1. **Environment Files**:
+   - Navigate to the `frontend` folder and create a `.env` file.
+   - Add the following content:
 
-## Running the Application
+     ```plaintext
+     VITE_API_BASE_URL=http://localhost:7000
+     VITE_STRIPE_PUB_KEY=<your-stripe-publishable-key>
+     ```
+
+2. **Stripe Publishable Key**:
+   - Retrieve your Stripe publishable key from the Stripe dashboard and add it to `VITE_STRIPE_PUB_KEY`.
+
+---
+
+## Running the Application 🚀
 
 1. **Backend**:
-    - Navigate to the `backend` directory.
-    - Install dependencies: `npm install`.
-    - Start the server: `npm start`.
+   - Navigate to the `backend` directory.
+   - Install dependencies: `npm install`.
+   - Start the server: `npm start`.
 
 2. **Frontend**:
-    - Open a new terminal and navigate to the `frontend` directory.
-    - Install dependencies: `npm install`.
-    - Start the frontend application: `npm run dev`.
-    - The application should now be running on `http://localhost:5173` but verify this in your command line terminal  
+   - Open a new terminal and navigate to the `frontend` directory.
+   - Install dependencies: `npm install`.
+   - Start the frontend application: `npm run dev`.
+   - The app will be available at `http://localhost:5173`.
+
+---
+
+## Running Automated Tests 🧪
+
+1. **MongoDB Setup for Tests**:
+   - Create a new MongoDB database for testing purposes.
+   - Add the connection string to the `MONGODB_CONNECTION_STRING` variable in the `.env.e2e` file.
+
+2. **Importing Test Data**:
+   - The repository contains a `data` folder with JSON files for test users and hotels.
+   - Use MongoDB Compass to import `test-users.json` and `test-hotel.json` into your test database.
+
+3. **Running Tests**:
+   - Install the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) in VS Code.
+   - Navigate to the `e2e-tests` directory.
+   - Install dependencies: `npm install`.
+   - Start the frontend and backend servers.
+   - Use the Playwright extension to run the tests.
+
+---
+
+## Contributing 🤝
+
+We welcome contributions! If you have any ideas or suggestions, feel free to submit a pull request. Here's how you can contribute:
+
+1. Fork the Project.
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+## License 📄
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
 
 
-## Running Automated Tests
+## Acknowledgments 🙏
 
-1. **MongoDB Setup**: 
-    - You will ideally want to create a new mongoDb database for your tests to run against. This is to keep the data stable 
-    - Sign up for an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-    - Create a new project (e.g e2e tests)
-    - Create a new cluster and follow the instructions to set up a new database.
-    - Once set up, obtain your MongoDB connection string and add it to the `MONGODB_CONNECTION_STRING` variable in your `.env.e2e` file.
-      
-2. **Importing Test Data into MongoDB**:
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- [Cloudinary](https://cloudinary.com/)
+- [Stripe](https://stripe.com/)
+- [Playwright](https://playwright.dev/)
 
-    - The repository contains a `data` folder at the root, which includes JSON files for a test user and a test hotel. You can import these into your MongoDB collections to quickly set up test data.
-    - **Locate the Test User File**: In the `data` folder, find the file containing the test user data (likely named something like `test-users.json`).
-    - **Open MongoDB Compass**: Launch MongoDB Compass and connect to your database.
-    - **Select the Database**: In Compass, select the database you are using for the automated tests (created in step 1).
-    - **Import User Data**:
-        - Navigate to the `users` collection within your database. Create it if it doesn't exist
-        - Click on the "Add Data" button and select "Import File".
-        - Browse to the location of your `test-users.json` file and select it.
-        - Choose JSON as the file format and click "Import".
-        - The test user data will be added to the `users` collection.
-        - user login: test@hotmail.com/passwordtest
-    -  **Locate the Test Hotel File**:
-        - Navigate to the `hotels` collection within your database. Create it if it doesn't exist
-        - Repeat the import process as you did for the user data, but this time select the `test-hotel.json` file.
-        - Ensure the file format is set to JSON and click "Import".
-        - The test hotel data will be added to the `hotels` collection.
- 
-3. **Running tests**    
-    - In VS Code install the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)
-    - Navigate to the `e2e-tests` directory.
-    - Install dependencies: `npm install`.
-    - Start the frontend and backend server using the steps above
-    - [Using the Playwright extension to run the tests](https://playwright.dev/docs/getting-started-vscode#running-tests)
+---
+
+Leave a ⭐ if this project helped you! Happy coding! 🚀
