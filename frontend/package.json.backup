@@ -48,7 +48,7 @@
     "terser": "^5.40.0",
     "ts-jest": "^29.3.4",
     "typescript": "^5.2.2",
-    "vite": "^6.3.5",
+    "vite": "^5.3.4",
     "vite-bundle-analyzer": "^0.22.0",
     "vite-plugin-compression2": "^0.11.0"
   }

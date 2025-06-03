@@ -5,6 +5,7 @@ import { param, validationResult } from "express-validator";
 import Stripe from "stripe";
 import verifyToken from "../middleware/auth";
 import { cacheMiddleware, clearCache } from "../middleware/cache";
+import { bookingsTotal, bookingValue } from "../metrics";
 
 const key = process.env.STRIPE_API_KEY as string;
 const stripe = new Stripe(key);
@@ -237,6 +238,10 @@ router.post(
 
       await hotel.save();
       
+      // Record booking metrics
+      bookingsTotal.inc({ status: 'success' });
+      bookingValue.observe(newBooking.totalCost);
+      
       // Clear cache for this hotel and hotel list when a new booking is made
       clearCache(`hotel_${req.params.hotelId}`);
       clearCache();
@@ -244,6 +249,10 @@ router.post(
       return res.status(200).send();
     } catch (error) {
       console.error("Booking error:", error);
+      
+      // Record failed booking metric
+      bookingsTotal.inc({ status: 'failed' });
+      
       return res.status(500).json({ message: "something went wrong" });
     }
   }

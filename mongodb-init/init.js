@@ -3,7 +3,6 @@ db = db.getSiblingDB('vacays');
 // Create collections
 db.createCollection('users');
 db.createCollection('hotels');
-db.createCollection('bookings');
 
 // Create sample users
 db.users.insertMany([
@@ -81,5 +80,3 @@ db.hotels.createIndex({ city: 1 });
 db.hotels.createIndex({ country: 1 });
 db.hotels.createIndex({ pricePerNight: 1 });
 db.hotels.createIndex({ starRating: 1 });
-db.bookings.createIndex({ userId: 1 });
-db.bookings.createIndex({ hotelId: 1 }); 

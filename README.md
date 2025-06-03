@@ -114,29 +114,31 @@ Create a `.env` file in the project root:
 
 ```env
 # Database Configuration
-MONGODB_CONNECTION_STRING=mongodb://localhost:27017/vacays
+MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
 MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=your-secure-password
+MONGO_INITDB_ROOT_PASSWORD=password123
 
 # Authentication
-JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters
+JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
 
 # Application URLs
-FRONTEND_URL=http://localhost
-FRONTEND_API_URL=http://localhost:7000
+FRONTEND_URL=http://localhost:5173
 
-# Cloudinary (Image Storage)
+# Cloudinary (Backend Image Storage)
 CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
 CLOUDINARY_API_KEY=your-cloudinary-api-key
 CLOUDINARY_API_SECRET=your-cloudinary-api-secret
 
-# Stripe (Payment Processing)
-STRIPE_API_KEY=your-stripe-secret-key
-STRIPE_PUB_KEY=your-stripe-publishable-key
+# Stripe (Backend Payment Processing)
+STRIPE_API_KEY=sk_test_your-stripe-secret-key
+```
 
-# Development Environment Variables
+Create `frontend/.env` file:
+
+```env
+# Frontend API Configuration
 VITE_API_BASE_URL=http://localhost:7000
-VITE_STRIPE_PUB_KEY=your-stripe-publishable-key
+VITE_STRIPE_PUB_KEY=pk_test_your-stripe-publishable-key
 ```
 
 > 🔐 **Security Note**: Never commit your `.env` file to version control

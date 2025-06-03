@@ -36,6 +36,19 @@ NAMESPACE="hotel-booking"
 REGISTRY="ghcr.io"
 IMAGE_TAG="latest"
 
+# Sample environment variables for testing
+MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
+MONGO_INITDB_ROOT_USERNAME=admin
+MONGO_INITDB_ROOT_PASSWORD=password123
+JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
+FRONTEND_URL=http://localhost:5173
+CLOUDINARY_CLOUD_NAME=sample-cloud-name
+CLOUDINARY_API_KEY=sample-api-key
+CLOUDINARY_API_SECRET=sample-api-secret
+STRIPE_API_KEY=sk_test_sample-stripe-secret-key
+VITE_API_BASE_URL=http://localhost:7000
+VITE_STRIPE_PUB_KEY=pk_test_sample-stripe-publishable-key
+
 # Help function
 show_help() {
     cat << EOF
@@ -211,25 +224,25 @@ create_sample_env() {
 # Replace with actual values for production
 
 # Database
-MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
-MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=password123
+MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING
+MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
 
 # Authentication
-JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long-for-security
+JWT_SECRET_KEY=$JWT_SECRET_KEY
 
 # Application URLs
-FRONTEND_URL=http://localhost
-FRONTEND_API_URL=http://localhost:7000
+FRONTEND_URL=$FRONTEND_URL
+# FRONTEND_API_URL is deprecated - use VITE_API_BASE_URL instead
 
 # Cloudinary (Image Storage) - Replace with actual values
-CLOUDINARY_CLOUD_NAME=sample-cloud-name
-CLOUDINARY_API_KEY=sample-api-key
-CLOUDINARY_API_SECRET=sample-api-secret
+CLOUDINARY_CLOUD_NAME=$CLOUDINARY_CLOUD_NAME
+CLOUDINARY_API_KEY=$CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET=$CLOUDINARY_API_SECRET
 
 # Stripe (Payment Processing) - Replace with actual values
-STRIPE_API_KEY=sk_test_sample-stripe-secret-key
-STRIPE_PUB_KEY=pk_test_sample-stripe-publishable-key
+STRIPE_API_KEY=$STRIPE_API_KEY
+STRIPE_PUB_KEY=$VITE_STRIPE_PUB_KEY
 EOF
     log "Created sample .env file. Please update with your actual values for production."
 }
@@ -256,8 +269,8 @@ deploy_kubernetes() {
     if ! kubectl get secret hotel-booking-secrets -n "$NAMESPACE" &> /dev/null; then
         warning "Secrets not found. Please create them manually:"
         log "kubectl create secret generic hotel-booking-secrets \\"
-        log "  --from-literal=jwt-secret=your-jwt-secret \\"
-        log "  --from-literal=mongodb-connection-string=your-mongodb-connection \\"
+        log "  --from-literal=jwt-secret=$JWT_SECRET_KEY \\"
+        log "  --from-literal=mongodb-connection-string=$MONGODB_CONNECTION_STRING \\"
         log "  --namespace=$NAMESPACE"
         log "Continuing with deployment..."
     fi

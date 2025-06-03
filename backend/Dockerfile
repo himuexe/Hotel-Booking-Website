@@ -3,15 +3,18 @@ FROM node:20-alpine
 # Create app directory
 WORKDIR /app
 
-# Install app dependencies
+# Install app dependencies (including devDependencies for build)
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Bundle app source
 COPY . .
 
 # Build TypeScript code
 RUN npm run build
+
+# Remove devDependencies to keep production image lean
+RUN npm ci --only=production && npm cache clean --force
 
 # Create a health check script
 RUN echo 'console.log("Health check passed");' > healthcheck.js

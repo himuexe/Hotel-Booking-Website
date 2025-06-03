@@ -180,16 +180,15 @@ Create a `.env` file in the project root:
 
 ```env
 # 🗄️ Database Configuration
-MONGODB_CONNECTION_STRING=mongodb://admin:your-password@mongodb:27017/vacays?authSource=admin
+MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
 MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=your-secure-password-here
+MONGO_INITDB_ROOT_PASSWORD=password123
 
 # 🔐 Authentication
 JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
 
 # 🌐 Application URLs
-FRONTEND_URL=http://localhost
-FRONTEND_API_URL=http://localhost:7000
+FRONTEND_URL=http://localhost:5173
 
 # ☁️ Cloudinary (Image Storage)
 CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
@@ -198,11 +197,6 @@ CLOUDINARY_API_SECRET=your-cloudinary-api-secret
 
 # 💳 Stripe (Payment Processing)
 STRIPE_API_KEY=sk_test_your-stripe-secret-key
-STRIPE_PUB_KEY=pk_test_your-stripe-publishable-key
-
-# 🛠️ Development Variables (for docker-compose.yml)
-VITE_API_BASE_URL=http://localhost:7000
-VITE_STRIPE_PUB_KEY=pk_test_your-stripe-publishable-key
 ```
 
 ### 🔒 Security Best Practices
@@ -227,15 +221,9 @@ For production deployment, update these values:
 ```env
 # Production URLs
 FRONTEND_URL=https://your-domain.com
-FRONTEND_API_URL=https://api.your-domain.com
 
 # Production Stripe keys
 STRIPE_API_KEY=sk_live_your-live-stripe-secret-key
-STRIPE_PUB_KEY=pk_live_your-live-stripe-publishable-key
-
-# Production Vite variables
-VITE_API_BASE_URL=https://api.your-domain.com
-VITE_STRIPE_PUB_KEY=pk_live_your-live-stripe-publishable-key
 ```
 
 ---
@@ -262,7 +250,7 @@ git push origin main
 
 # 3. Custom domain (optional)
 # - Add custom domain in Railway dashboard
-# - Update FRONTEND_URL and FRONTEND_API_URL
+# - Update FRONTEND_URL and VITE_API_BASE_URL
 ```
 
 **✅ Advantages:**
@@ -336,7 +324,7 @@ docker compose -f docker-compose.prod.yml ps
 curl http://localhost:7000/health
 
 # Check frontend
-curl http://localhost
+curl http://localhost:5173
 
 # Check MongoDB connection
 docker compose -f docker-compose.prod.yml exec mongodb mongosh --eval "db.adminCommand('ping')"

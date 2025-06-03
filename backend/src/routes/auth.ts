@@ -4,6 +4,7 @@ import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import User from "../models/user";
 import verifyToken from "../middleware/auth";
+import { authAttempts } from "../metrics";
 
 const router = express.Router();
 
@@ -52,16 +53,19 @@ router.post("/login", [check("email", "Email is required").isEmail(),
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    authAttempts.inc({ type: 'login', status: 'validation_failed' });
     return res.status(400).json({ message: errors.array() });
   }
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      authAttempts.inc({ type: 'login', status: 'user_not_found' });
       return res.status(400).json({ message: "Invalid Credentials" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      authAttempts.inc({ type: 'login', status: 'invalid_password' });
       return res.status(400).json({ message: "Invalid Credentials" });
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY as string, {
@@ -72,10 +76,13 @@ router.post("/login", [check("email", "Email is required").isEmail(),
       secure: process.env.NODE_ENV === "production",
       maxAge: 86400000,
     });
+    
+    authAttempts.inc({ type: 'login', status: 'success' });
     return res.status(200).json({ userId: user._id });
   }
   catch (error) {
     console.error("Login error:", error);
+    authAttempts.inc({ type: 'login', status: 'error' });
     return res.status(500).json({ message: "Something went wrong" });
   }
 });

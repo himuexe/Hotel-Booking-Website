@@ -13,8 +13,10 @@ import bookingRoutes from "./routes/my-bookings";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger";
 import rateLimit from "express-rate-limit";
+import { register } from "./metrics";
+import { metricsMiddleware } from "./middleware/metrics";
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 7000;
 
 // Configure rate limiting
 const limiter = rateLimit({
@@ -44,8 +46,21 @@ app.use(
   })
 );
 
+// Apply metrics middleware to all requests
+app.use(metricsMiddleware);
+
 // Apply rate limiting to all requests
 app.use(limiter);
+
+// Metrics endpoint for Prometheus
+app.get("/metrics", async (_req: Request, res: Response) => {
+  try {
+    res.set("Content-Type", register.contentType);
+    res.end(await register.metrics());
+  } catch (error) {
+    res.status(500).end(error);
+  }
+});
 
 // Swagger API Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -54,7 +69,21 @@ app.get("/api-docs.json", (_req: Request, res: Response) => {
   res.send(swaggerSpec);
 });
 
-app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+// Health check endpoint
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+    version: "1.0.0"
+  });
+});
+
+// Only serve static files in production when frontend is bundled with backend
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+}
 
 // Apply stricter rate limits to authentication routes
 const authLimiter = rateLimit({
@@ -71,9 +100,28 @@ app.use("/api/my-hotels", myHotelRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes);
 
-app.get("*", (_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
-});
+// Only serve index.html in production when frontend is bundled with backend
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+  });
+} else {
+  // In development, return a helpful message for non-API routes
+  app.get("*", (_req: Request, res: Response) => {
+    res.status(404).json({
+      message: "API endpoint not found. Frontend is served separately in development mode.",
+      availableEndpoints: [
+        "/health",
+        "/api-docs",
+        "/api/auth/*",
+        "/api/users/*",
+        "/api/my-hotels/*",
+        "/api/hotels/*",
+        "/api/my-bookings/*"
+      ]
+    });
+  });
+}
 
 // Error handling middleware
 app.use((err: any, _req: Request, res: Response, _next: any) => {

@@ -6,7 +6,7 @@ This document provides detailed setup instructions for different environments (d
 
 - Node.js (v18+)
 - npm (v8+)
-- MongoDB (v6+)
+- MongoDB Atlas account (cloud database)
 - Docker and Docker Compose (for containerized setup)
 - Git
 
@@ -18,7 +18,7 @@ This document provides detailed setup instructions for different environments (d
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-org/Hotel-Booking-Website.git
+   git clone https://github.com/himuexe/Hotel-Booking-Website.git
    cd Hotel-Booking-Website
    ```
 
@@ -31,8 +31,7 @@ This document provides detailed setup instructions for different environments (d
 3. Create a `.env` file in the frontend directory with the following content:
    ```
    VITE_API_BASE_URL=http://localhost:7000
-   VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   VITE_CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset
+   VITE_STRIPE_PUB_KEY=pk_test_your_stripe_publishable_key
    ```
 
 4. Start the frontend development server:
@@ -54,34 +53,24 @@ This document provides detailed setup instructions for different environments (d
 
 3. Create a `.env` file in the backend directory with the following content:
    ```
-   MONGODB_CONNECTION_STRING=mongodb://localhost:27017/vacays
-   JWT_SECRET_KEY=your_jwt_secret
+   MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
+   MONGO_INITDB_ROOT_USERNAME=admin
+   MONGO_INITDB_ROOT_PASSWORD=password123
+   JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
    FRONTEND_URL=http://localhost:5173
-   STRIPE_API_KEY=your_stripe_api_key
+   STRIPE_API_KEY=sk_test_your_stripe_secret_key
    CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
    CLOUDINARY_API_KEY=your_cloudinary_api_key
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
    PORT=7000
    ```
 
-4. Start the MongoDB service on your local machine:
+4. Ensure your MongoDB Atlas connection is configured in backend/.env:
    ```bash
    # Linux
-   sudo systemctl start mongodb
-   
-   # macOS
-   brew services start mongodb-community
-   
-   # Windows
-   net start MongoDB
    ```
 
-5. Seed the database (optional):
-   ```bash
-   npm run seed
-   ```
-
-6. Start the backend development server:
+5. Start the backend development server:
    ```bash
    npm run dev
    ```
@@ -90,33 +79,34 @@ This document provides detailed setup instructions for different environments (d
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-org/Hotel-Booking-Website.git
+   git clone https://github.com/himuexe/Hotel-Booking-Website.git
    cd Hotel-Booking-Website
    ```
 
 2. Create a `.env` file in the root directory with the following content:
    ```
-   MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/vacays
-   JWT_SECRET_KEY=your_jwt_secret
+   MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
+   MONGO_INITDB_ROOT_USERNAME=admin
+   MONGO_INITDB_ROOT_PASSWORD=password123
+   JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
    FRONTEND_URL=http://localhost:5173
-   STRIPE_API_KEY=your_stripe_api_key
+   STRIPE_API_KEY=sk_test_your_stripe_secret_key
    CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
    CLOUDINARY_API_KEY=your_cloudinary_api_key
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
    VITE_API_BASE_URL=http://localhost:7000
-   VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   VITE_CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset
+   VITE_STRIPE_PUB_KEY=pk_test_your_stripe_publishable_key
    ```
 
 3. Start the application using Docker Compose:
    ```bash
-   docker-compose up
+   docker-compose up -d
    ```
 
 4. The application will be available at:
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:7000
-   - MongoDB: localhost:27017
+   - API Documentation: http://localhost:7000/api-docs
 
 ## Testing Environment Setup
 
@@ -139,7 +129,7 @@ This document provides detailed setup instructions for different environments (d
 
 4. Create a `.env.test` file in the root directory:
    ```
-   MONGODB_CONNECTION_STRING=mongodb://localhost:27017/vacays_test
+   # Note: For testing, use a separate test database in your MongoDB Atlas cluster
    JWT_SECRET_KEY=test_jwt_secret
    FRONTEND_URL=http://localhost:5173
    STRIPE_API_KEY=your_test_stripe_api_key
@@ -149,14 +139,14 @@ This document provides detailed setup instructions for different environments (d
    ```bash
    # Without Docker
    cd ../backend
-   npm run dev:test
+   npm run dev
    
    # In another terminal
    cd ../frontend
    npm run dev
    
    # With Docker
-   docker-compose -f docker-compose.test.yml up
+   # Note: Use your existing MongoDB Atlas connection for testing
    ```
 
 6. Run the E2E tests:
@@ -238,8 +228,7 @@ This document provides detailed setup instructions for different environments (d
      - Output directory: `dist`
    - Configure environment variables:
      - `VITE_API_BASE_URL`: Your backend API URL
-     - `VITE_CLOUDINARY_CLOUD_NAME`: Your Cloudinary cloud name
-     - `VITE_CLOUDINARY_UPLOAD_PRESET`: Your Cloudinary upload preset
+     - `VITE_STRIPE_PUB_KEY`: Your Stripe publishable key
 
 #### Backend Deployment (AWS EC2/ECS)
 
@@ -279,6 +268,33 @@ This document provides detailed setup instructions for different environments (d
    - Verify JWT_SECRET_KEY is set correctly
    - Check token expiration settings
    - Clear browser cookies and try again
+
+5. **Port already in use**
+   ```bash
+   # Kill processes on ports 5173 and 7000
+   npx kill-port 5173 7000
+   ```
+
+6. **Docker permission issues**
+   ```bash
+   sudo usermod -aG docker $USER
+   # Log out and log back in
+   ```
+
+7. **Environment variables not loading**
+   - Ensure `.env` files are in the correct directories
+   - Check that frontend variables are prefixed with `VITE_`
+   - Restart development servers after changing environment variables
+
+8. **Database connection issues**
+   - Verify MongoDB is running
+   - Check the `MONGODB_CONNECTION_STRING` format
+   - Ensure database credentials are correct
+
+9. **API connection issues**
+   - Verify the `VITE_API_BASE_URL` matches your backend URL
+   - Check CORS configuration in backend
+   - Ensure backend is running on the specified port
 
 ### Getting Help
 

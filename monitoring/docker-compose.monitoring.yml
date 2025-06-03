@@ -11,7 +11,7 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     networks:
-      - monitoring
+      - hotel-booking-website_default
 
   grafana:
     image: grafana/grafana:latest
@@ -25,11 +25,11 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
-      - monitoring
+      - hotel-booking-website_default
 
 networks:
-  monitoring:
-    driver: bridge
+  hotel-booking-website_default:
+    external: true
 
 volumes:
   prometheus_data:

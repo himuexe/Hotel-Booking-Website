@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hotel-booking-config
+  namespace: hotel-booking
+data:
+  NODE_ENV: "production"
+  FRONTEND_URL: "http://localhost:5173"
+  # Add other non-sensitive configuration here 

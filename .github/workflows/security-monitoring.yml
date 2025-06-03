@@ -163,10 +163,20 @@ jobs:
           cd frontend
           npm run build
       
-      - name: Analyze bundle size
+      - name: Analyze bundle size with vite-bundle-analyzer
         run: |
           cd frontend
-          npx vite-bundle-analyzer dist --json > bundle-analysis.json
+          # Check if vite-bundle-analyzer is available
+          if npm list vite-bundle-analyzer > /dev/null 2>&1; then
+            echo "Running bundle analysis..."
+            npx vite-bundle-analyzer dist --json > bundle-analysis.json
+          else
+            echo "vite-bundle-analyzer not found, generating basic bundle report..."
+            # Generate basic bundle size report
+            echo "{\"bundleSize\": \"$(du -sh dist | cut -f1)\", \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > bundle-analysis.json
+            # List files with sizes
+            find dist -type f -name "*.js" -o -name "*.css" | xargs ls -lh >> bundle-analysis.json
+          fi
         continue-on-error: true
       
       - name: Upload performance report
@@ -183,26 +193,74 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - name: Check production health
+      - name: Check production health endpoints
         run: |
           echo "🔍 Checking production health endpoints..."
-          # Add actual health check URLs when deployed
-          # curl -f ${{ secrets.PRODUCTION_URL }}/health || exit 1
-          echo "✅ Health checks would run here"
+          
+          # Check if production URL is configured
+          if [ -n "${{ vars.PRODUCTION_URL }}" ]; then
+            echo "Production URL configured: ${{ vars.PRODUCTION_URL }}"
+            if curl -f "${{ vars.PRODUCTION_URL }}/health" --max-time 30; then
+              echo "✅ Production health check passed"
+            else
+              echo "❌ Production health check failed"
+              exit 1
+            fi
+          else
+            echo "⚠️ Production URL not configured in repository variables"
+            echo "To enable health checks, set PRODUCTION_URL in repository variables"
+            echo "Example: https://your-production-domain.com"
+          fi
       
-      - name: Check staging health
+      - name: Check staging health endpoints
         run: |
           echo "🔍 Checking staging health endpoints..."
-          # Add actual health check URLs when deployed
-          # curl -f ${{ secrets.STAGING_URL }}/health || exit 1
-          echo "✅ Health checks would run here"
+          
+          # Check if staging URL is configured
+          if [ -n "${{ vars.STAGING_URL }}" ]; then
+            echo "Staging URL configured: ${{ vars.STAGING_URL }}"
+            if curl -f "${{ vars.STAGING_URL }}/health" --max-time 30; then
+              echo "✅ Staging health check passed"
+            else
+              echo "❌ Staging health check failed"
+              exit 1
+            fi
+          else
+            echo "⚠️ Staging URL not configured in repository variables"
+            echo "To enable health checks, set STAGING_URL in repository variables"
+            echo "Example: https://staging.your-domain.com"
+          fi
       
       - name: Generate health report
         run: |
           echo "# Health Check Report - $(date)" > health-report.md
-          echo "## Production Status: ✅ Healthy" >> health-report.md
-          echo "## Staging Status: ✅ Healthy" >> health-report.md
+          echo "" >> health-report.md
+          
+          if [ -n "${{ vars.PRODUCTION_URL }}" ]; then
+            echo "## Production Status: ✅ Monitored" >> health-report.md
+            echo "- URL: ${{ vars.PRODUCTION_URL }}" >> health-report.md
+          else
+            echo "## Production Status: ⚠️ Not Configured" >> health-report.md
+            echo "- Configure PRODUCTION_URL in repository variables" >> health-report.md
+          fi
+          
+          if [ -n "${{ vars.STAGING_URL }}" ]; then
+            echo "## Staging Status: ✅ Monitored" >> health-report.md
+            echo "- URL: ${{ vars.STAGING_URL }}" >> health-report.md
+          else
+            echo "## Staging Status: ⚠️ Not Configured" >> health-report.md
+            echo "- Configure STAGING_URL in repository variables" >> health-report.md
+          fi
+          
+          echo "" >> health-report.md
           echo "## Last Check: $(date -u)" >> health-report.md
+          echo "" >> health-report.md
+          echo "## Setup Instructions" >> health-report.md
+          echo "To enable automated health monitoring:" >> health-report.md
+          echo "1. Go to repository Settings > Secrets and variables > Actions" >> health-report.md
+          echo "2. Add repository variables:" >> health-report.md
+          echo "   - PRODUCTION_URL: https://your-production-domain.com" >> health-report.md
+          echo "   - STAGING_URL: https://staging.your-domain.com" >> health-report.md
       
       - name: Upload health report
         uses: actions/upload-artifact@v4
