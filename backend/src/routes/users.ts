@@ -14,10 +14,10 @@ router.get("/me", verifyToken, async (req: Request, res: Response) => {
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-    res.json(user);
+    return res.json(user);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "something went wrong" });
+    console.error("User fetch error:", error);
+    return res.status(500).json({ message: "something went wrong" });
   }
 });
 
@@ -64,8 +64,8 @@ router.post(
       });
       return res.status(200).send({ message: "User registered OK" });
     } catch (error) {
-      console.log(error);
-      res.status(500).send({ message: "Something went wrong" });
+      console.error("User registration error:", error);
+      return res.status(500).send({ message: "Something went wrong" });
     }
   }
 );

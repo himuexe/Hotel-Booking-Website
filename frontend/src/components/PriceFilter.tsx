@@ -12,7 +12,7 @@ const PriceFilter = ({ selectedPrice, onChange }: Props) => {
         value={selectedPrice}
         onChange={(event) =>
           onChange(
-            event.target.value ? parseInt(event.target.value) : undefined
+            event.target.value ? parseInt(event.target.value) : undefined,
           )
         }
       >

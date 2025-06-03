@@ -33,7 +33,7 @@ const Search = () => {
   };
 
   const { data: hotelData } = useQuery(["searchHotels", searchParams], () =>
-    apiClient.searchHotels(searchParams)
+    apiClient.searchHotels(searchParams),
   );
 
   const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,19 +42,19 @@ const Search = () => {
     setSelectedStars((prevStars) =>
       event.target.checked
         ? [...prevStars, starRating]
-        : prevStars.filter((star) => star !== starRating)
+        : prevStars.filter((star) => star !== starRating),
     );
   };
 
   const handleHotelTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const hotelType = event.target.value;
 
     setSelectedHotelTypes((prevHotelTypes) =>
       event.target.checked
         ? [...prevHotelTypes, hotelType]
-        : prevHotelTypes.filter((hotel) => hotel !== hotelType)
+        : prevHotelTypes.filter((hotel) => hotel !== hotelType),
     );
   };
 
@@ -64,7 +64,7 @@ const Search = () => {
     setSelectedFacilities((prevFacilities) =>
       event.target.checked
         ? [...prevFacilities, facility]
-        : prevFacilities.filter((prevFacility) => prevFacility !== facility)
+        : prevFacilities.filter((prevFacility) => prevFacility !== facility),
     );
   };
 

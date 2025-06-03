@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: hotel-booking
+  labels:
+    app: vacays
+    component: backend
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: vacays
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: vacays
+        component: backend
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/your-org/hotel-booking-website-backend:latest
+        ports:
+        - containerPort: 7000
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: hotel-booking-config
+              key: NODE_ENV
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: hotel-booking-config
+              key: FRONTEND_URL
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: jwt-secret
+        - name: MONGODB_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: mongodb-connection-string
+        - name: CLOUDINARY_CLOUD_NAME
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: cloudinary-cloud-name
+        - name: CLOUDINARY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: cloudinary-api-key
+        - name: CLOUDINARY_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: cloudinary-api-secret
+        - name: STRIPE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hotel-booking-secrets
+              key: stripe-api-key
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 7000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 7000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: hotel-booking
+  labels:
+    app: vacays
+    component: backend
+spec:
+  selector:
+    app: vacays
+    component: backend
+  ports:
+  - port: 80
+    targetPort: 7000
+    protocol: TCP
+    name: http
+  type: ClusterIP 

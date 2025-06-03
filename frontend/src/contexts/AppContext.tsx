@@ -47,7 +47,7 @@ export const AppContextProvider = ({
           message={toast.message}
           type={toast.type}
           onClose={() => setToast(undefined)}
-        ></Toast>
+        />
       )}
       {children}
     </AppContext.Provider>

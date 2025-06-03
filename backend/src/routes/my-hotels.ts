@@ -49,10 +49,10 @@ router.post(
       const hotel = new Hotel(newHotel);
       await hotel.save();
 
-      res.status(201).send(hotel);
+      return res.status(201).send(hotel);
     } catch (e) {
-      console.log(e);
-      res.status(500).json({ message: "Something went wrong" });
+      console.error("Hotel creation error:", e);
+      return res.status(500).json({ message: "Something went wrong" });
     }
   }
 );
@@ -60,9 +60,9 @@ router.post(
 router.get("/", verifyToken, async (req: Request, res: Response) => {
   try {
     const hotels = await Hotel.find({ userId: req.userId });
-    res.json(hotels);
+    return res.json(hotels);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching hotels" });
+    return res.status(500).json({ message: "Error fetching hotels" });
   }
 });
 
@@ -73,9 +73,9 @@ router.get("/:id", verifyToken, async (req: Request, res: Response) => {
       _id: id,
       userId: req.userId,
     });
-    res.json(hotel);
+    return res.json(hotel);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching hotels" });
+    return res.status(500).json({ message: "Error fetching hotels" });
   }
 });
 
@@ -110,9 +110,9 @@ router.put(
       ];
 
       await hotel.save();
-      res.status(201).json(hotel);
+      return res.status(201).json(hotel);
     } catch (error) {
-      res.status(500).json({ message: "Something went throw" });
+      return res.status(500).json({ message: "Something went throw" });
     }
   }
 );
@@ -120,7 +120,7 @@ router.put(
 async function uploadImages(imageFiles: Express.Multer.File[]) {
   const uploadPromises = imageFiles.map(async (image) => {
     const b64 = Buffer.from(image.buffer).toString("base64");
-    let dataURI = "data:" + image.mimetype + ";base64," + b64;
+    const dataURI = "data:" + image.mimetype + ";base64," + b64;
     const res = await cloudinary.v2.uploader.upload(dataURI);
     return res.url;
   });

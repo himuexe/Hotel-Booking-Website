@@ -1,158 +1,341 @@
-# Vacays App - Hotel Booking Website 🏨
+<div align="center">
 
-Welcome to the **Vacays App**, a modern and responsive hotel booking platform designed to make your travel planning seamless and enjoyable. This project is open to contributions, and we welcome any ideas or suggestions to improve it. If you find this project helpful, don't forget to leave a ⭐!
+# 🏨 Vacays - Hotel Booking Platform
 
----
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/himuexe/Hotel-Booking-Website/actions)
+[![Docker](https://img.shields.io/badge/docker-ready-blue?style=for-the-badge&logo=docker)](https://hub.docker.com/)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge&logo=opensourceinitiative)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge&logo=github)](https://github.com/himuexe/Hotel-Booking-Website/issues)
 
-## Features ✨
+**A modern, full-stack hotel booking platform built with React, TypeScript, Node.js, and MongoDB**
 
-- **Responsive Design**: Works flawlessly on all devices, from desktops to mobile phones.
-- **Pagination**: Easily navigate through large lists of hotels.
-- **Search Functionality**: Quickly find hotels based on your preferences.
-- **Automated Tests**: Ensures the app is reliable and bug-free.
+[🚀 Quick Start](#-quick-start-30-seconds) • [🐳 Docker Setup](#-docker-deployment) • [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
 
----
-
-## Setting Up the Vacays App 🛠️
-
-This guide will walk you through the process of setting up the Vacays App on your local machine.
-
-### Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Node.js**: Download and install from [here](https://nodejs.org/).
+</div>
 
 ---
 
-## Cloning the Repository
+## ✨ Features
 
-1. Clone the repository to your local machine:
+<div align="center">
 
-   ```bash
-   git clone https://github.com/himuexe/Hotel-Booking-Website.git
-   cd Hotel-Booking-Website
-   ```
+| 🎨 **Modern UI/UX** | 🔐 **Secure Authentication** | 💳 **Payment Integration** |
+|:---:|:---:|:---:|
+| Responsive design with Tailwind CSS | JWT-based auth with HTTP-only cookies | Stripe payment processing |
+| **🔍 Advanced Search** | **📱 Mobile Optimized** | **🐳 Docker Ready** |
+| Filter by location, dates, price | Works seamlessly on all devices | One-command deployment |
 
----
+</div>
 
-## Backend Configuration ⚙️
+### 🎯 Core Functionality
 
-1. **Environment Files**:
-   - Navigate to the `backend` folder and create two files: `.env` and `.env.e2e`.
-   - Add the following content to both files:
-
-     ```plaintext
-     MONGODB_CONNECTION_STRING=
-     JWT_SECRET_KEY=
-     FRONTEND_URL=
-
-     # Cloudinary Variables
-     CLOUDINARY_CLOUD_NAME=
-     CLOUDINARY_API_KEY=
-     CLOUDINARY_API_SECRET=
-
-     # Stripe
-     STRIPE_API_KEY=
-     ```
-
-2. **MongoDB Setup**:
-   - Sign up for an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-   - Create a new cluster and database.
-   - Add your MongoDB connection string to the `MONGODB_CONNECTION_STRING` variable in your `.env` files.
-
-3. **Cloudinary Setup**:
-   - Create an account at [Cloudinary](https://cloudinary.com/).
-   - Add your Cloudinary credentials (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`) to the `.env` files.
-
-4. **Stripe Setup**:
-   - Sign up for a Stripe account at [Stripe](https://stripe.com/).
-   - Add your Stripe API key to the `STRIPE_API_KEY` variable in the `.env` files.
-
-5. **JWT Secret Key**:
-   - Generate a random string for `JWT_SECRET_KEY` (you can use an online secret key generator).
-
-6. **Frontend URL**:
-   - Set `FRONTEND_URL` to `http://localhost:5173` for local development.
+- **🏨 Hotel Management**: Complete CRUD operations for hotels with image uploads
+- **📅 Booking System**: Real-time availability checking and reservation management  
+- **👤 User Profiles**: Registration, authentication, and profile management
+- **🔍 Smart Search**: Advanced filtering by location, dates, price range, and amenities
+- **💰 Payment Processing**: Secure Stripe integration for seamless transactions
+- **📊 Admin Dashboard**: Comprehensive hotel and booking management
+- **🔒 Security**: Rate limiting, input validation, and secure authentication
+- **📱 Responsive Design**: Mobile-first approach with Tailwind CSS
 
 ---
 
-## Frontend Configuration 🖥️
+## 🛠️ Technology Stack
 
-1. **Environment Files**:
-   - Navigate to the `frontend` folder and create a `.env` file.
-   - Add the following content:
+<div align="center">
 
-     ```plaintext
-     VITE_API_BASE_URL=http://localhost:7000
-     VITE_STRIPE_PUB_KEY=<your-stripe-publishable-key>
-     ```
+### Frontend
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.3.4-646CFF?style=flat&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.10-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![React Query](https://img.shields.io/badge/React_Query-3.39.3-FF4154?style=flat&logo=react-query)](https://tanstack.com/query)
 
-2. **Stripe Publishable Key**:
-   - Retrieve your Stripe publishable key from the Stripe dashboard and add it to `VITE_STRIPE_PUB_KEY`.
+### Backend
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat&logo=node.js)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.19.2-000000?style=flat&logo=express)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.8.0-47A248?style=flat&logo=mongodb)](https://www.mongodb.com/)
+[![Mongoose](https://img.shields.io/badge/Mongoose-8.5.1-880000?style=flat&logo=mongoose)](https://mongoosejs.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-17.1.0-008CDD?style=flat&logo=stripe)](https://stripe.com/)
 
----
+### DevOps & Tools
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
+[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=flat&logo=github-actions)](https://github.com/features/actions)
+[![Swagger](https://img.shields.io/badge/Swagger-API_Docs-85EA2D?style=flat&logo=swagger)](https://swagger.io/)
+[![ESLint](https://img.shields.io/badge/ESLint-Code_Quality-4B32C3?style=flat&logo=eslint)](https://eslint.org/)
 
-## Running the Application 🚀
-
-1. **Backend**:
-   - Navigate to the `backend` directory.
-   - Install dependencies: `npm install`.
-   - Start the server: `npm start`.
-
-2. **Frontend**:
-   - Open a new terminal and navigate to the `frontend` directory.
-   - Install dependencies: `npm install`.
-   - Start the frontend application: `npm run dev`.
-   - The app will be available at `http://localhost:5173`.
+</div>
 
 ---
 
-## Running Automated Tests 🧪
+## 🚀 Quick Start (30 seconds)
 
-1. **MongoDB Setup for Tests**:
-   - Create a new MongoDB database for testing purposes.
-   - Add the connection string to the `MONGODB_CONNECTION_STRING` variable in the `.env.e2e` file.
+> 💡 **Prerequisites**: Docker and Docker Compose installed on your system
 
-2. **Importing Test Data**:
-   - The repository contains a `data` folder with JSON files for test users and hotels.
-   - Use MongoDB Compass to import `test-users.json` and `test-hotel.json` into your test database.
+### 🐳 One-Command Deployment
 
-3. **Running Tests**:
-   - Install the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) in VS Code.
-   - Navigate to the `e2e-tests` directory.
-   - Install dependencies: `npm install`.
-   - Start the frontend and backend servers.
-   - Use the Playwright extension to run the tests.
+```bash
+# Clone the repository
+git clone https://github.com/himuexe/Hotel-Booking-Website.git
+cd Hotel-Booking-Website
 
----
+# Create environment file
+touch .env
+# Edit .env with your configuration (see Environment Setup below)
 
-## Contributing 🤝
+# 🚀 Deploy with Docker (Production Ready)
+docker compose -f docker-compose.prod.yml up -d --build
 
-We welcome contributions! If you have any ideas or suggestions, feel free to submit a pull request. Here's how you can contribute:
+# ✅ Access your application
+# Frontend: http://localhost
+# Backend API: http://localhost:7000
+# API Documentation: http://localhost:7000/api-docs
+```
 
-1. Fork the Project.
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the Branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+### 🛠️ Development Mode (with hot reloading)
 
----
+```bash
+# Install dependencies
+cd frontend && npm install
+cd ../backend && npm install
 
-## License 📄
+# Start development servers
+cd backend && npm run dev    # Terminal 1
+cd frontend && npm run dev   # Terminal 2
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-
-## Acknowledgments 🙏
-
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-- [Cloudinary](https://cloudinary.com/)
-- [Stripe](https://stripe.com/)
-- [Playwright](https://playwright.dev/)
+# Access at http://localhost:5173
+```
 
 ---
 
-Leave a ⭐ if this project helped you! Happy coding! 🚀
+## 🔧 Environment Setup
+
+Create a `.env` file in the project root:
+
+```env
+# Database Configuration
+MONGODB_CONNECTION_STRING=mongodb://localhost:27017/vacays
+MONGO_INITDB_ROOT_USERNAME=admin
+MONGO_INITDB_ROOT_PASSWORD=your-secure-password
+
+# Authentication
+JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters
+
+# Application URLs
+FRONTEND_URL=http://localhost
+FRONTEND_API_URL=http://localhost:7000
+
+# Cloudinary (Image Storage)
+CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+CLOUDINARY_API_KEY=your-cloudinary-api-key
+CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+
+# Stripe (Payment Processing)
+STRIPE_API_KEY=your-stripe-secret-key
+STRIPE_PUB_KEY=your-stripe-publishable-key
+
+# Development Environment Variables
+VITE_API_BASE_URL=http://localhost:7000
+VITE_STRIPE_PUB_KEY=your-stripe-publishable-key
+```
+
+> 🔐 **Security Note**: Never commit your `.env` file to version control
+
+---
+
+## 🐳 Docker Deployment
+
+### 🚀 Production Deployment
+
+```bash
+# Build and start all services
+docker compose -f docker-compose.prod.yml up -d --build
+
+# View logs
+docker compose -f docker-compose.prod.yml logs -f
+
+# Scale services (if needed)
+docker compose -f docker-compose.prod.yml up -d --scale backend=3
+
+# Stop services
+docker compose -f docker-compose.prod.yml down
+```
+
+### 🛠️ Using Deployment Script
+
+```bash
+# Make script executable
+chmod +x scripts/deploy.sh
+
+# Deploy with Docker Compose
+./scripts/deploy.sh --type docker-compose --env production
+
+# View deployment status
+docker compose -f docker-compose.prod.yml ps
+```
+
+### 🔍 Health Checks
+
+```bash
+# Check backend health
+curl http://localhost:7000/health
+
+# Check frontend
+curl http://localhost
+
+# View container status
+docker compose -f docker-compose.prod.yml ps
+```
+
+---
+
+## 📖 Documentation
+
+<div align="center">
+
+| 📋 **Setup Guides** | 🧪 **Testing** | 🐳 **Docker Deployment** | 🏗️ **Architecture** |
+|:---:|:---:|:---:|:---:|
+| [Development Setup](docs/setup-guides.md) | [Testing Guide](docs/testing.md) | [Docker Deployment](docs/docker-deployment.md) | [Architecture Overview](docs/architecture.md) |
+| Local development setup | Unit, E2E, and performance testing | Complete Docker deployment guide | System design and components |
+
+</div>
+
+### 📚 Documentation Hub
+
+**[📖 Complete Documentation Hub](docs/README.md)** - Organized access to all project documentation
+
+### 📚 Additional Resources
+
+- **[API Documentation](http://localhost:7000/api-docs)** - Interactive Swagger API docs
+- **[License](LICENSE)** - MIT License details
+
+---
+
+## 🧪 Testing
+
+### Run All Tests
+
+```bash
+# Backend tests
+cd backend && npm test
+
+# Frontend tests  
+cd frontend && npm test
+
+# E2E tests
+cd e2e-tests && npm test
+
+# Docker test script
+./docker-test.sh
+```
+
+### Test Coverage
+
+- **Unit Tests**: Component and function testing
+- **Integration Tests**: API endpoint testing
+- **E2E Tests**: Full user journey testing with Playwright
+- **Performance Tests**: Load testing and optimization
+- **Accessibility Tests**: WCAG compliance testing
+
+---
+
+## 💰 Free Production Deployment
+
+Deploy Vacays to production using **Docker-compatible free services**:
+
+<div align="center">
+
+| Service | Cost | Docker Support | Database | Best For |
+|---------|------|----------------|----------|----------|
+| **Railway** | $5 credit/month | ✅ Full Docker | MongoDB Atlas Free | **Recommended** |
+| **Render** | Free tier | ✅ Dockerfile | MongoDB Atlas Free | Simplicity |
+| **DigitalOcean** | $4/month | ✅ Full Docker | Self-hosted MongoDB | Full Control |
+
+</div>
+
+### 🚀 Quick Deploy to Railway
+
+```bash
+# 1. Push your code to GitHub
+git add . && git commit -m "Deploy to Railway"
+git push origin main
+
+# 2. Connect to Railway
+# - Visit railway.app
+# - Connect GitHub repo
+# - Deploy with Docker
+
+# 3. Set environment variables in Railway dashboard
+# 4. Your app is live! 🎉
+```
+
+> 🐳 **Docker Advantage**: Your app runs the same everywhere - local, staging, production!
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+### 🐛 Found a Bug?
+
+1. Check [existing issues](https://github.com/himuexe/Hotel-Booking-Website/issues)
+2. Create a [new issue](https://github.com/himuexe/Hotel-Booking-Website/issues/new) with details
+3. Include steps to reproduce and expected behavior
+
+### 💡 Want to Contribute?
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### 📋 Development Guidelines
+
+- Follow the existing code style
+- Write tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting
+- Test with Docker before submitting
+
+---
+
+## 📊 Project Stats
+
+<div align="center">
+
+![GitHub stars](https://img.shields.io/github/stars/himuexe/Hotel-Booking-Website?style=social)
+![GitHub forks](https://img.shields.io/github/forks/himuexe/Hotel-Booking-Website?style=social)
+![GitHub issues](https://img.shields.io/github/issues/himuexe/Hotel-Booking-Website)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/himuexe/Hotel-Booking-Website)
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **[React](https://reactjs.org/)** - Frontend framework
+- **[Express](https://expressjs.com/)** - Backend framework  
+- **[MongoDB](https://www.mongodb.com/)** - Database
+- **[Stripe](https://stripe.com/)** - Payment processing
+- **[Cloudinary](https://cloudinary.com/)** - Image management
+- **[Docker](https://www.docker.com/)** - Containerization
+- **[Tailwind CSS](https://tailwindcss.com/)** - Styling framework
+
+---
+
+<div align="center">
+
+**⭐ If you found this project helpful, please give it a star!**
+
+[🔝 Back to Top](#-vacays---hotel-booking-platform)
+
+</div>

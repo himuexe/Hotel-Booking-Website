@@ -13,7 +13,7 @@ const EditHotel = () => {
     () => apiClient.fetchMyHotelById(hotelId || ""),
     {
       enabled: !!hotelId,
-    }
+    },
   );
 
   const { mutate, isLoading } = useMutation(apiClient.updateMyHotelById, {

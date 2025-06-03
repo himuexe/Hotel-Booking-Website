@@ -4,7 +4,7 @@ import * as apiClient from "../api-client";
 const MyBookings = () => {
   const { data: hotels } = useQuery(
     "fetchMyBookings",
-    apiClient.fetchMyBookings
+    apiClient.fetchMyBookings,
   );
 
   if (!hotels || hotels.length === 0) {
@@ -19,6 +19,7 @@ const MyBookings = () => {
           <div className="lg:w-full lg:h-[250px]">
             <img
               src={hotel.imageUrls[0]}
+              alt={`${hotel.name} hotel`}
               className="w-full h-full object-cover object-center"
             />
           </div>

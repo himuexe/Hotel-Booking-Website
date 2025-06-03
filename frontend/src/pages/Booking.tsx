@@ -30,11 +30,11 @@ const Booking = () => {
     () =>
       apiClient.createPaymentIntent(
         hotelId as string,
-        numberOfNights.toString()
+        numberOfNights.toString(),
       ),
     {
       enabled: !!hotelId && numberOfNights > 0,
-    }
+    },
   );
 
   const { data: hotel } = useQuery(
@@ -42,12 +42,12 @@ const Booking = () => {
     () => apiClient.fetchHotelById(hotelId as string),
     {
       enabled: !!hotelId,
-    }
+    },
   );
 
   const { data: currentUser } = useQuery(
     "fetchCurrentUser",
-    apiClient.fetchCurrentUser
+    apiClient.fetchCurrentUser,
   );
 
   if (!hotel) {

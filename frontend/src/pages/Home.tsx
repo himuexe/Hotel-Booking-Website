@@ -4,7 +4,7 @@ import LatestDestinationCard from "../components/LatestDestinationCard";
 
 const Home = () => {
   const { data: hotels } = useQuery("fetchQuery", () =>
-    apiClient.fetchHotels()
+    apiClient.fetchHotels(),
   );
 
   const topRowHotels = hotels?.slice(0, 2) || [];

@@ -5,7 +5,7 @@ import {
   HotelType,
   PaymentIntentResponse,
   UserType,
-} from "../../backend/src/shared/types";
+} from "./shared/types";
 import { BookingFormData } from "./forms/BookingForm/BookingForm";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -121,7 +121,7 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
       method: "PUT",
       body: hotelFormData,
       credentials: "include",
-    }
+    },
   );
 
   if (!response.ok) {
@@ -146,7 +146,7 @@ export type SearchParams = {
 };
 
 export const searchHotels = async (
-  searchParams: SearchParams
+  searchParams: SearchParams,
 ): Promise<HotelSearchResponse> => {
   const queryParams = new URLSearchParams();
   queryParams.append("destination", searchParams.destination || "");
@@ -160,14 +160,14 @@ export const searchHotels = async (
   queryParams.append("sortOption", searchParams.sortOption || "");
 
   searchParams.facilities?.forEach((facility) =>
-    queryParams.append("facilities", facility)
+    queryParams.append("facilities", facility),
   );
 
   searchParams.types?.forEach((type) => queryParams.append("types", type));
   searchParams.stars?.forEach((star) => queryParams.append("stars", star));
 
   const response = await fetch(
-    `${API_BASE_URL}/api/hotels/search?${queryParams}`
+    `${API_BASE_URL}/api/hotels/search?${queryParams}`,
   );
 
   if (!response.ok) {
@@ -196,7 +196,7 @@ export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
 
 export const createPaymentIntent = async (
   hotelId: string,
-  numberOfNights: string
+  numberOfNights: string,
 ): Promise<PaymentIntentResponse> => {
   const response = await fetch(
     `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
@@ -207,7 +207,7 @@ export const createPaymentIntent = async (
       headers: {
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -226,7 +226,7 @@ export const createRoomBooking = async (formData: BookingFormData) => {
       },
       credentials: "include",
       body: JSON.stringify(formData),
-    }
+    },
   );
 
   if (!response.ok) {

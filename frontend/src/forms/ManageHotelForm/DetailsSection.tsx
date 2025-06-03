@@ -16,7 +16,7 @@ const DetailsSection = () => {
           type="text"
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("name", { required: "This field is required" })}
-        ></input>
+        />
         {errors.name && (
           <span className="text-red-500">{errors.name.message}</span>
         )}
@@ -29,7 +29,7 @@ const DetailsSection = () => {
             type="text"
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("city", { required: "This field is required" })}
-          ></input>
+          />
           {errors.city && (
             <span className="text-red-500">{errors.city.message}</span>
           )}
@@ -40,7 +40,7 @@ const DetailsSection = () => {
             type="text"
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("country", { required: "This field is required" })}
-          ></input>
+          />
           {errors.country && (
             <span className="text-red-500">{errors.country.message}</span>
           )}
@@ -52,7 +52,7 @@ const DetailsSection = () => {
           rows={10}
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("description", { required: "This field is required" })}
-        ></textarea>
+        />
         {errors.description && (
           <span className="text-red-500">{errors.description.message}</span>
         )}
@@ -64,7 +64,7 @@ const DetailsSection = () => {
           min={1}
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("pricePerNight", { required: "This field is required" })}
-        ></input>
+        />
         {errors.pricePerNight && (
           <span className="text-red-500">{errors.pricePerNight.message}</span>
         )}

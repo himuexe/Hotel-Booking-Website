@@ -48,7 +48,7 @@ const Register = () => {
           <input
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("firstName", { required: "This field is required" })}
-          ></input>
+          />
           {errors.firstName && (
             <span className="text-red-500">{errors.firstName.message}</span>
           )}
@@ -58,7 +58,7 @@ const Register = () => {
           <input
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("lastName", { required: "This field is required" })}
-          ></input>
+          />
           {errors.lastName && (
             <span className="text-red-500">{errors.lastName.message}</span>
           )}
@@ -70,7 +70,7 @@ const Register = () => {
           type="email"
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("email", { required: "This field is required" })}
-        ></input>
+        />
         {errors.email && (
           <span className="text-red-500">{errors.email.message}</span>
         )}
@@ -87,7 +87,7 @@ const Register = () => {
               message: "Password must be at least 6 characters",
             },
           })}
-        ></input>
+        />
         {errors.password && (
           <span className="text-red-500">{errors.password.message}</span>
         )}
@@ -106,7 +106,7 @@ const Register = () => {
               }
             },
           })}
-        ></input>
+        />
         {errors.confirmPassword && (
           <span className="text-red-500">{errors.confirmPassword.message}</span>
         )}

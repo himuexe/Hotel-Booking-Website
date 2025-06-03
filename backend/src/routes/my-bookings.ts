@@ -27,7 +27,7 @@ router.get("/", verifyToken, async (req: Request, res: Response) => {
 
     res.status(200).send(results);
   } catch (error) {
-    console.log(error);
+    console.error("Bookings fetch error:", error);
     res.status(500).json({ message: "Unable to fetch bookings" });
   }
 });

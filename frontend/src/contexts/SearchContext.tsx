@@ -26,24 +26,24 @@ export const SearchContextProvider = ({
   children,
 }: SearchContextProviderProps) => {
   const [destination, setDestination] = useState<string>(
-    () => sessionStorage.getItem("destination") || ""
+    () => sessionStorage.getItem("destination") || "",
   );
   const [checkIn, setCheckIn] = useState<Date>(
     () =>
-      new Date(sessionStorage.getItem("checkIn") || new Date().toISOString())
+      new Date(sessionStorage.getItem("checkIn") || new Date().toISOString()),
   );
   const [checkOut, setCheckOut] = useState<Date>(
     () =>
-      new Date(sessionStorage.getItem("checkOut") || new Date().toISOString())
+      new Date(sessionStorage.getItem("checkOut") || new Date().toISOString()),
   );
   const [adultCount, setAdultCount] = useState<number>(() =>
-    parseInt(sessionStorage.getItem("adultCount") || "1")
+    parseInt(sessionStorage.getItem("adultCount") || "1"),
   );
   const [childCount, setChildCount] = useState<number>(() =>
-    parseInt(sessionStorage.getItem("childCount") || "1")
+    parseInt(sessionStorage.getItem("childCount") || "1"),
   );
   const [hotelId, setHotelId] = useState<string>(
-    () => sessionStorage.getItem("hotelID") || ""
+    () => sessionStorage.getItem("hotelID") || "",
   );
 
   const saveSearchValues = (
@@ -52,7 +52,7 @@ export const SearchContextProvider = ({
     checkOut: Date,
     adultCount: number,
     childCount: number,
-    hotelId?: string
+    hotelId?: string,
   ) => {
     setDestination(destination);
     setCheckIn(checkIn);

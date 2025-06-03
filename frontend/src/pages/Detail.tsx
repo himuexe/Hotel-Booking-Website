@@ -12,7 +12,7 @@ const Detail = () => {
     () => apiClient.fetchHotelById(hotelId || ""),
     {
       enabled: !!hotelId,
-    }
+    },
   );
 
   if (!hotel) {

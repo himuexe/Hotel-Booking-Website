@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HotelType } from "../../../backend/src/shared/types";
+import { HotelType } from "../shared/types";
 import { AiFillStar } from "react-icons/ai";
 type Props = {
   hotel: HotelType;
@@ -11,6 +11,7 @@ const SearchResultsCard = ({ hotel }: Props) => {
       <div className="w-full h-[300px]">
         <img
           src={hotel.imageUrls[0]}
+          alt={`${hotel.name} hotel`}
           className="w-full h-full object-cover object-center"
         />
       </div>
