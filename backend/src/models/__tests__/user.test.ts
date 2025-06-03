@@ -1,12 +1,12 @@
-import User from '../user';
+import User from "../user";
 
-describe('User Model', () => {
-  test('create & save user successfully', async () => {
+describe("User Model", () => {
+  test("create & save user successfully", async () => {
     const userData = {
-      firstName: 'Test',
-      lastName: 'User',
-      email: 'test@example.com',
-      password: 'Password123!'
+      firstName: "Test",
+      lastName: "User",
+      email: "test@example.com",
+      password: "Password123!",
     };
     
     const validUser = new User(userData);
@@ -21,9 +21,9 @@ describe('User Model', () => {
     expect(savedUser.password.length).toBeGreaterThan(10);
   });
 
-  test('should fail to create user without required fields', async () => {
+  test("should fail to create user without required fields", async () => {
     const userData = {
-      firstName: 'Test',
+      firstName: "Test",
       // Missing lastName, email, password
     };
     
@@ -32,12 +32,12 @@ describe('User Model', () => {
     await expect(invalidUser.save()).rejects.toThrow();
   });
 
-  test('should fail to create user with duplicate email', async () => {
+  test("should fail to create user with duplicate email", async () => {
     const userData = {
-      firstName: 'Test',
-      lastName: 'User',
-      email: 'duplicate@example.com',
-      password: 'Password123!'
+      firstName: "Test",
+      lastName: "User",
+      email: "duplicate@example.com",
+      password: "Password123!",
     };
     
     const user1 = new User(userData);

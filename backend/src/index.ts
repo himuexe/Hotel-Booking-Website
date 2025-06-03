@@ -76,7 +76,7 @@ app.get("/health", (_req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || "development",
-    version: "1.0.0"
+    version: "1.0.0",
   });
 });
 
@@ -117,8 +117,8 @@ if (process.env.NODE_ENV === "production") {
         "/api/users/*",
         "/api/my-hotels/*",
         "/api/hotels/*",
-        "/api/my-bookings/*"
-      ]
+        "/api/my-bookings/*",
+      ],
     });
   });
 }

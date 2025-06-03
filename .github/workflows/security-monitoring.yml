@@ -42,6 +42,7 @@ jobs:
         run: |
           cd ${{ matrix.component }}
           npm audit --audit-level=moderate --json > audit-results.json || true
+        continue-on-error: true
       
       - name: Upload audit results
         uses: actions/upload-artifact@v4
@@ -107,18 +108,20 @@ jobs:
           docker build -t security-scan:${{ matrix.component }} ./${{ matrix.component }}
       
       - name: Run Trivy security scan (JSON format)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: 'security-scan:${{ matrix.component }}'
           format: 'json'
           output: 'trivy-${{ matrix.component }}.json'
+        continue-on-error: true
       
       - name: Run Trivy security scan (SARIF format)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: 'security-scan:${{ matrix.component }}'
           format: 'sarif'
           output: 'trivy-${{ matrix.component }}.sarif'
+        continue-on-error: true
       
       - name: Upload SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3

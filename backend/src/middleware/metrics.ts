@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { httpRequestsTotal, httpRequestDuration, activeConnections } from '../metrics';
+import { Request, Response, NextFunction } from "express";
+import { httpRequestsTotal, httpRequestDuration, activeConnections } from "../metrics";
 
 // Track active connections
 let currentConnections = 0;
@@ -33,7 +33,7 @@ export const metricsMiddleware = (req: Request, res: Response, next: NextFunctio
     activeConnections.set(currentConnections);
 
     // Call original end method with proper arguments
-    if (typeof encoding === 'function') {
+    if (typeof encoding === "function") {
       return originalEnd(chunk, encoding);
     } else if (encoding !== undefined) {
       return originalEnd(chunk, encoding, cb);

@@ -239,7 +239,7 @@ router.post(
       await hotel.save();
       
       // Record booking metrics
-      bookingsTotal.inc({ status: 'success' });
+      bookingsTotal.inc({ status: "success" });
       bookingValue.observe(newBooking.totalCost);
       
       // Clear cache for this hotel and hotel list when a new booking is made
@@ -251,7 +251,7 @@ router.post(
       console.error("Booking error:", error);
       
       // Record failed booking metric
-      bookingsTotal.inc({ status: 'failed' });
+      bookingsTotal.inc({ status: "failed" });
       
       return res.status(500).json({ message: "something went wrong" });
     }

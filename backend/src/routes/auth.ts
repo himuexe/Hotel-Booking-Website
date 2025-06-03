@@ -53,19 +53,19 @@ router.post("/login", [check("email", "Email is required").isEmail(),
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    authAttempts.inc({ type: 'login', status: 'validation_failed' });
+    authAttempts.inc({ type: "login", status: "validation_failed" });
     return res.status(400).json({ message: errors.array() });
   }
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      authAttempts.inc({ type: 'login', status: 'user_not_found' });
+      authAttempts.inc({ type: "login", status: "user_not_found" });
       return res.status(400).json({ message: "Invalid Credentials" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      authAttempts.inc({ type: 'login', status: 'invalid_password' });
+      authAttempts.inc({ type: "login", status: "invalid_password" });
       return res.status(400).json({ message: "Invalid Credentials" });
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY as string, {
@@ -77,12 +77,12 @@ router.post("/login", [check("email", "Email is required").isEmail(),
       maxAge: 86400000,
     });
     
-    authAttempts.inc({ type: 'login', status: 'success' });
+    authAttempts.inc({ type: "login", status: "success" });
     return res.status(200).json({ userId: user._id });
   }
   catch (error) {
     console.error("Login error:", error);
-    authAttempts.inc({ type: 'login', status: 'error' });
+    authAttempts.inc({ type: "login", status: "error" });
     return res.status(500).json({ message: "Something went wrong" });
   }
 });
