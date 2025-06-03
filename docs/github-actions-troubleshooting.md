@@ -65,6 +65,64 @@ After the fix:
 
 ## 🛠️ Other Common GitHub Actions Issues
 
+### Issue: Docker Registry 403 Forbidden
+
+**Problem**: Docker push fails with permission error
+```
+ERROR: failed to push ghcr.io/username/repo:tag: unexpected status from POST request: 403 Forbidden
+```
+
+**Root Cause**: Missing `packages: write` permission for GitHub Container Registry
+
+**✅ Solution**:
+```yaml
+permissions:
+  contents: read
+  packages: write  # Required for pushing to GHCR
+  security-events: write
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      packages: write  # Also add to specific job
+```
+
+**Additional Steps**:
+1. **Enable Package Registry** (if needed):
+   - Go to repository **Settings** → **Actions** → **General**
+   - Under "Workflow permissions", ensure "Read and write permissions" is selected
+
+2. **Verify Registry URL**:
+   ```yaml
+   env:
+     REGISTRY: ghcr.io
+     IMAGE_NAME: ${{ github.repository }}  # Should be lowercase
+   ```
+
+3. **Check Repository Visibility**:
+   - Private repos: Ensure GITHUB_TOKEN has package permissions
+   - Public repos: May need to enable package inheritance
+
+4. **Alternative: Use Docker Hub** (if GHCR issues persist):
+   ```yaml
+   env:
+     REGISTRY: docker.io
+     IMAGE_NAME: your-dockerhub-username/hotel-booking-website
+   
+   - name: Log in to Docker Hub
+     uses: docker/login-action@v3
+     with:
+       username: ${{ secrets.DOCKERHUB_USERNAME }}
+       password: ${{ secrets.DOCKERHUB_TOKEN }}
+   ```
+
+5. **Test Registry Access**:
+   ```bash
+   # Test locally with GitHub token
+   echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+   ```
+
 ### Issue: Docker Build Failures
 
 **Problem**: Docker builds fail with context errors
