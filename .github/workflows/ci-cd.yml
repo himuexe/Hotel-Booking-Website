@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main ]
 
+# Add required permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 env:
   NODE_VERSION: '20'
   REGISTRY: ghcr.io
@@ -74,6 +80,11 @@ jobs:
     name: Security Scan
     runs-on: ubuntu-latest
     needs: test
+    # Add explicit permissions for this job
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     steps:
       - name: Checkout code
@@ -87,11 +98,21 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
       
-      - name: Upload Trivy scan results
+      - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
+          category: 'trivy-fs-scan'
+        continue-on-error: true
+      
+      - name: Upload security scan results as artifact (fallback)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-security-scan
+          path: 'trivy-results.sarif'
+          retention-days: 30
 
   # Job 3: Build Docker Images
   build:

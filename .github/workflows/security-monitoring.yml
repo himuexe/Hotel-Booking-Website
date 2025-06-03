@@ -6,6 +6,12 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch: # Allow manual trigger
 
+# Add permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   # Job 1: Dependency Security Audit
   security-audit:
@@ -82,6 +88,11 @@ jobs:
   docker-security:
     name: Docker Security Scan
     runs-on: ubuntu-latest
+    # Add explicit permissions for security scanning
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     
     strategy:
       matrix:
@@ -95,18 +106,35 @@ jobs:
         run: |
           docker build -t security-scan:${{ matrix.component }} ./${{ matrix.component }}
       
-      - name: Run Trivy security scan
+      - name: Run Trivy security scan (JSON format)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'security-scan:${{ matrix.component }}'
           format: 'json'
           output: 'trivy-${{ matrix.component }}.json'
       
-      - name: Upload security scan results
+      - name: Run Trivy security scan (SARIF format)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'security-scan:${{ matrix.component }}'
+          format: 'sarif'
+          output: 'trivy-${{ matrix.component }}.sarif'
+      
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-${{ matrix.component }}.sarif'
+          category: 'trivy-docker-${{ matrix.component }}'
+        continue-on-error: true
+      
+      - name: Upload security scan results as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: docker-security-${{ matrix.component }}
-          path: trivy-${{ matrix.component }}.json
+          path: |
+            trivy-${{ matrix.component }}.json
+            trivy-${{ matrix.component }}.sarif
           retention-days: 30
 
   # Job 4: Performance Monitoring
