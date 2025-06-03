@@ -26,7 +26,7 @@ jobs:
     
     strategy:
       matrix:
-        component: [frontend, backend, e2e-tests]
+        component: [frontend, backend]
     
     steps:
       - name: Checkout code
@@ -45,14 +45,12 @@ jobs:
           npm ci
       
       - name: Run linting
-        if: matrix.component != 'e2e-tests'
         run: |
           cd ${{ matrix.component }}
           npm run lint
         continue-on-error: false
       
       - name: Run type checking
-        if: matrix.component != 'e2e-tests'
         run: |
           cd ${{ matrix.component }}
           npx tsc --noEmit
@@ -260,51 +258,4 @@ jobs:
         if: always()
         run: |
           echo "📢 Production deployment completed"
-          echo "Status: ${{ job.status }}"
-
-  # Job 6: E2E Tests (Post-deployment)
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    needs: [deploy-staging]
-    if: github.ref == 'refs/heads/develop'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: e2e-tests/package-lock.json
-      
-      - name: Install dependencies
-        run: |
-          cd e2e-tests
-          npm ci
-      
-      - name: Install Playwright browsers
-        run: |
-          cd e2e-tests
-          npx playwright install --with-deps
-      
-      - name: Run E2E tests against staging
-        run: |
-          cd e2e-tests
-          # For now, run tests against local environment
-          # In real deployment, this would test against staging URL
-          echo "E2E tests would run against staging environment"
-          echo "BASE_URL would be set to staging URL"
-          # npm test
-        env:
-          BASE_URL: ${{ vars.STAGING_URL || 'http://localhost:5173' }}
-      
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: e2e-test-results
-          path: e2e-tests/test-results
-          retention-days: 7 
+          echo "Status: ${{ job.status }}" 

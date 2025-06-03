@@ -20,7 +20,7 @@ jobs:
     
     strategy:
       matrix:
-        component: [frontend, backend, e2e-tests]
+        component: [frontend, backend]
     
     steps:
       - name: Checkout code
@@ -71,8 +71,6 @@ jobs:
           cd frontend && npm outdated --json > ../frontend-outdated.json || true
           echo "## Backend Dependencies" >> ../dependency-report.md
           cd ../backend && npm outdated --json > ../backend-outdated.json || true
-          echo "## E2E Tests Dependencies" >> ../dependency-report.md
-          cd ../e2e-tests && npm outdated --json > ../e2e-outdated.json || true
       
       - name: Upload dependency report
         uses: actions/upload-artifact@v4
@@ -82,7 +80,6 @@ jobs:
             dependency-report.md
             frontend-outdated.json
             backend-outdated.json
-            e2e-outdated.json
           retention-days: 30
 
   # Job 3: Docker Image Security Scan
