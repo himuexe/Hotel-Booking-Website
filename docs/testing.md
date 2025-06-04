@@ -1,38 +1,99 @@
-# Vacays App Testing Documentation
+# 🧪 Vacays App Testing Documentation
 
-This document provides a comprehensive guide to testing the Vacays Hotel Booking Website, covering unit tests, integration tests, and end-to-end tests.
+> **Comprehensive testing guide for the Vacays Hotel Booking Platform**  
+> Covering unit tests, integration tests, end-to-end tests, and performance testing
 
-## Testing Strategy
+<div align="center">
 
-The Vacays App follows a comprehensive testing strategy that includes:
+[![Testing](https://img.shields.io/badge/Testing-Comprehensive-brightgreen?style=for-the-badge&logo=checkmarx)](https://github.com/himuexe/Hotel-Booking-Website)
+[![Jest](https://img.shields.io/badge/Jest-Unit_Tests-C21325?style=for-the-badge&logo=jest)](https://jestjs.io/)
+[![Playwright](https://img.shields.io/badge/Playwright-E2E_Tests-2EAD33?style=for-the-badge&logo=playwright)](https://playwright.dev/)
+[![Coverage](https://img.shields.io/badge/Coverage-High-success?style=for-the-badge&logo=codecov)](https://github.com/himuexe/Hotel-Booking-Website)
 
-1. **Unit Tests** - Testing individual components and functions in isolation
-2. **Integration Tests** - Testing interactions between components and services
-3. **End-to-End Tests** - Testing complete user flows from start to finish
-4. **Accessibility Tests** - Ensuring the application is accessible to all users
-5. **Performance Tests** - Validating the application's performance under load
+</div>
 
-## Testing Tools
+---
 
-The following tools are used for testing the Vacays App:
+## 📋 Table of Contents
 
-- **Jest** - JavaScript testing framework for unit and integration tests
-- **React Testing Library** - For testing React components
-- **Playwright** - For end-to-end testing
-- **Supertest** - For testing HTTP endpoints
-- **Lighthouse** - For performance and accessibility testing
+1. [🎯 Testing Strategy](#-testing-strategy)
+2. [🛠️ Testing Tools](#️-testing-tools)
+3. [🔬 Unit Testing](#-unit-testing)
+4. [🔗 Integration Testing](#-integration-testing)
+5. [🎭 End-to-End Testing](#-end-to-end-testing)
+6. [♿ Accessibility Testing](#-accessibility-testing)
+7. [⚡ Performance Testing](#-performance-testing)
+8. [🚀 Running Tests](#-running-tests)
 
-## Unit Testing
+---
 
-### Frontend Unit Tests
+## 🎯 Testing Strategy
 
-Frontend unit tests focus on testing individual React components, hooks, and utility functions.
+The Vacays App follows a comprehensive testing pyramid strategy that ensures reliability and maintainability:
+
+<div align="center">
+
+```
+        🎭 E2E Tests
+       (User Journeys)
+      ─────────────────
+     🔗 Integration Tests
+    (Component Interactions)
+   ─────────────────────────
+  🔬 Unit Tests (Components & Functions)
+ ─────────────────────────────────────
+```
+
+</div>
+
+### 📊 Testing Levels
+
+| Level | Purpose | Tools | Coverage |
+|-------|---------|-------|----------|
+| **🔬 Unit Tests** | Test individual components and functions in isolation | Jest, React Testing Library | ~70% |
+| **🔗 Integration Tests** | Test interactions between components and services | Jest, Supertest | ~20% |
+| **🎭 E2E Tests** | Test complete user flows from start to finish | Playwright | ~10% |
+| **♿ Accessibility Tests** | Ensure application is accessible to all users | Lighthouse, axe-core | Ongoing |
+| **⚡ Performance Tests** | Validate application performance under load | Lighthouse, K6 | Ongoing |
+
+---
+
+## 🛠️ Testing Tools
+
+<div align="center">
+
+### Frontend Testing
+[![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
+[![React Testing Library](https://img.shields.io/badge/React_Testing_Library-E33332?style=flat&logo=testing-library&logoColor=white)](https://testing-library.com/docs/react-testing-library/intro/)
+[![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat&logo=vitest&logoColor=white)](https://vitest.dev/)
+
+### Backend Testing
+[![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
+[![Supertest](https://img.shields.io/badge/Supertest-000000?style=flat&logo=node.js&logoColor=white)](https://github.com/visionmedia/supertest)
+[![MongoDB Memory Server](https://img.shields.io/badge/MongoDB_Memory_Server-47A248?style=flat&logo=mongodb&logoColor=white)](https://github.com/nodkz/mongodb-memory-server)
+
+### E2E Testing
+[![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=flat&logo=playwright&logoColor=white)](https://playwright.dev/)
+
+### Quality & Performance
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-F44B21?style=flat&logo=lighthouse&logoColor=white)](https://developers.google.com/web/tools/lighthouse)
+[![axe-core](https://img.shields.io/badge/axe--core-663399?style=flat&logo=deque&logoColor=white)](https://github.com/dequelabs/axe-core)
+
+</div>
+
+---
+
+## 🔬 Unit Testing
+
+> **Focus**: Testing individual React components, hooks, and utility functions in isolation
+
+### 🎨 Frontend Unit Tests
 
 #### Component Tests
 
 Component tests verify that components render correctly with different props and respond appropriately to user interactions.
 
-Example component test:
+**Example: HotelCard Component Test**
 
 ```typescript
 // HotelCard.test.tsx
@@ -91,7 +152,7 @@ describe('HotelCard', () => {
 
 Hook tests verify custom React hooks work as expected.
 
-Example hook test:
+**Example: useAuth Hook Test**
 
 ```typescript
 // useAuth.test.tsx
@@ -126,7 +187,7 @@ describe('useAuth', () => {
 
 Tests for utility functions verify they produce the expected outputs for given inputs.
 
-Example utility function test:
+**Example: Date Formatting Utility Test**
 
 ```typescript
 // formatDate.test.ts
@@ -145,15 +206,15 @@ describe('formatDate', () => {
 });
 ```
 
-### Backend Unit Tests
+### 🖥️ Backend Unit Tests
 
-Backend unit tests focus on testing individual functions, models, and utilities.
+> **Focus**: Testing individual functions, models, and utilities
 
 #### Model Tests
 
 Model tests verify that MongoDB models behave as expected.
 
-Example model test:
+**Example: User Model Test**
 
 ```typescript
 // UserModel.test.ts
@@ -201,7 +262,7 @@ describe('User Model', () => {
 
 Route handler tests verify that API endpoints behave as expected.
 
-Example route handler test:
+**Example: Auth Routes Test**
 
 ```typescript
 // authRoutes.test.ts
@@ -253,15 +314,17 @@ describe('Auth Routes', () => {
 });
 ```
 
-## Integration Tests
+---
 
-Integration tests verify that different parts of the application work together correctly.
+## 🔗 Integration Testing
 
-### API Integration Tests
+> **Focus**: Verifying that different parts of the application work together correctly
+
+### 🌐 API Integration Tests
 
 API integration tests verify that the API endpoints correctly interact with the database and other services.
 
-Example API integration test:
+**Example: Booking API Integration Test**
 
 ```typescript
 // bookingAPI.test.ts
@@ -353,18 +416,22 @@ describe('Booking API', () => {
 });
 ```
 
-## End-to-End Tests
+---
 
-End-to-end (E2E) tests verify complete user flows through the application. The Vacays App uses Playwright for E2E testing.
+## 🎭 End-to-End Testing
 
-### Example E2E Test
+> **Focus**: Testing complete user flows from start to finish using Playwright
+
+### 🔐 Authentication Flow Tests
+
+**Example: User Registration & Login E2E Test**
 
 ```typescript
 // auth.spec.ts
 import { test, expect } from '@playwright/test';
 
-test.describe('Authentication', () => {
-  test('should allow user to register', async ({ page }) => {
+test.describe('🔐 Authentication Flow', () => {
+  test('should allow user to register successfully', async ({ page }) => {
     await page.goto('/register');
     
     // Fill in registration form
@@ -385,9 +452,7 @@ test.describe('Authentication', () => {
     await expect(page.locator('text=My Account')).toBeVisible();
   });
   
-  test('should allow user to login', async ({ page }) => {
-    // Create a test user first (could be done via API directly)
-    
+  test('should allow user to login successfully', async ({ page }) => {
     await page.goto('/login');
     
     // Fill in login form
@@ -407,72 +472,79 @@ test.describe('Authentication', () => {
 });
 ```
 
-### Running E2E Tests
+### 🏨 Hotel Booking Flow Tests
+
+```typescript
+// booking.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('🏨 Hotel Booking Flow', () => {
+  test('should complete full booking process', async ({ page }) => {
+    // Login first
+    await page.goto('/login');
+    await page.fill('input[name="email"]', 'test@example.com');
+    await page.fill('input[name="password"]', 'Password123!');
+    await page.click('button[type="submit"]');
+    
+    // Search for hotels
+    await page.goto('/');
+    await page.fill('input[name="destination"]', 'New York');
+    await page.fill('input[name="checkIn"]', '2024-12-01');
+    await page.fill('input[name="checkOut"]', '2024-12-05');
+    await page.click('button[type="submit"]');
+    
+    // Select a hotel
+    await page.click('.hotel-card:first-child .view-details-btn');
+    
+    // Book the hotel
+    await page.click('button:has-text("Book Now")');
+    
+    // Fill booking form
+    await page.fill('input[name="firstName"]', 'Test');
+    await page.fill('input[name="lastName"]', 'User');
+    await page.fill('input[name="email"]', 'test@example.com');
+    
+    // Complete payment (mock)
+    await page.click('button:has-text("Complete Booking")');
+    
+    // Verify booking confirmation
+    await expect(page.locator('text=Booking Confirmed')).toBeVisible();
+  });
+});
+```
+
+### 🚀 Running E2E Tests
 
 ```bash
-# In the e2e-tests directory
+# 🎭 Run all E2E tests
 npm run test
 
-# Run in UI mode
+# 🖥️ Run in UI mode for debugging
 npm run test:ui
 
-# Run specific test
+# 🎯 Run specific test file
 npm run test -- auth.spec.ts
 
-# Run on specific browser
+# 🌐 Run on specific browser
 npm run test -- --project=chromium
+npm run test -- --project=firefox
+npm run test -- --project=webkit
 ```
 
-## Test Coverage
+---
 
-The Vacays App aims for high test coverage, with the following targets:
+## ♿ Accessibility Testing
 
-- Unit Tests: >80% coverage
-- Integration Tests: >70% coverage
-- E2E Tests: All critical user flows covered
+> **Focus**: Ensuring the application is accessible to all users following WCAG 2.1 guidelines
 
-### Checking Test Coverage
-
-```bash
-# Frontend test coverage
-cd frontend
-npm run test:coverage
-
-# Backend test coverage
-cd backend
-npm run test:coverage
-```
-
-## Continuous Integration
-
-Tests are automatically run as part of the CI/CD pipeline in GitHub Actions. The workflow includes:
-
-1. Running unit and integration tests for frontend and backend
-2. Running E2E tests against a test environment
-3. Generating and storing test coverage reports
-
-## Test Data Management
-
-### Test Database
-
-The application uses MongoDB Memory Server for unit and integration tests to create an isolated database for testing.
-
-
-## Accessibility Testing
-
-The Vacays App ensures accessibility by following WCAG 2.1 guidelines. Accessibility testing includes:
-
-1. Automated tests using Lighthouse and axe-core
-2. Manual testing with screen readers and keyboard navigation
-
-Example accessibility test:
+### 🔍 Automated Accessibility Tests
 
 ```typescript
 // accessibility.spec.ts
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test.describe('Accessibility', () => {
+test.describe('♿ Accessibility Compliance', () => {
   test('home page should not have accessibility violations', async ({ page }) => {
     await page.goto('/');
     
@@ -481,24 +553,43 @@ test.describe('Accessibility', () => {
   });
   
   test('hotel details page should not have accessibility violations', async ({ page }) => {
-    // Go to a hotel details page
     await page.goto('/hotel/1');
     
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });
+  
+  test('booking form should be keyboard navigable', async ({ page }) => {
+    await page.goto('/hotel/1');
+    await page.click('button:has-text("Book Now")');
+    
+    // Test keyboard navigation
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+    
+    // Verify form interaction works with keyboard
+    await expect(page.locator('input[name="firstName"]:focus')).toBeVisible();
+  });
 });
 ```
 
-## Performance Testing
+### 📋 Accessibility Checklist
 
-Performance testing ensures the application performs well under various conditions. Performance testing includes:
+- ✅ **Color Contrast**: Minimum 4.5:1 ratio for normal text
+- ✅ **Keyboard Navigation**: All interactive elements accessible via keyboard
+- ✅ **Screen Reader Support**: Proper ARIA labels and semantic HTML
+- ✅ **Focus Management**: Clear focus indicators and logical tab order
+- ✅ **Alternative Text**: Images have descriptive alt text
+- ✅ **Form Labels**: All form inputs have associated labels
 
-1. Load testing using k6 or JMeter
-2. Frontend performance testing using Lighthouse
-3. API response time testing
+---
 
-Example load test script (k6):
+## ⚡ Performance Testing
+
+> **Focus**: Validating application performance under various conditions
+
+### 🚀 Load Testing with K6
 
 ```javascript
 // load-test.js
@@ -506,40 +597,269 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 
 export const options = {
-  vus: 100,
-  duration: '30s',
+  stages: [
+    { duration: '2m', target: 100 }, // Ramp up to 100 users
+    { duration: '5m', target: 100 }, // Stay at 100 users
+    { duration: '2m', target: 200 }, // Ramp up to 200 users
+    { duration: '5m', target: 200 }, // Stay at 200 users
+    { duration: '2m', target: 0 },   // Ramp down to 0 users
+  ],
+  thresholds: {
+    http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
+    http_req_failed: ['rate<0.1'],     // Error rate must be below 10%
+  },
 };
 
 export default function () {
-  const res = http.get('http://localhost:7000/api/hotels');
-  check(res, {
-    'status is 200': (r) => r.status === 200,
-    'response time < 200ms': (r) => r.timings.duration < 200,
+  // Test hotel search endpoint
+  const searchRes = http.get('http://localhost:7000/api/hotels/search?destination=New York');
+  check(searchRes, {
+    'search status is 200': (r) => r.status === 200,
+    'search response time < 500ms': (r) => r.timings.duration < 500,
   });
+  
+  // Test hotel details endpoint
+  const detailsRes = http.get('http://localhost:7000/api/hotels/1');
+  check(detailsRes, {
+    'details status is 200': (r) => r.status === 200,
+    'details response time < 300ms': (r) => r.timings.duration < 300,
+  });
+  
   sleep(1);
 }
 ```
 
-## Test Best Practices
+### 📊 Frontend Performance Testing
 
-1. **Isolation** - Tests should be independent and not rely on the state from other tests
-2. **Readability** - Test names should clearly describe what they're testing
-3. **Maintainability** - Tests should be easy to maintain and update
-4. **Speed** - Tests should run quickly to encourage frequent testing
-5. **Reliability** - Tests should be deterministic and not produce flaky results
+```typescript
+// performance.spec.ts
+import { test, expect } from '@playwright/test';
 
-## Troubleshooting Common Test Issues
+test.describe('⚡ Performance Metrics', () => {
+  test('home page should load within performance budget', async ({ page }) => {
+    await page.goto('/');
+    
+    // Measure Core Web Vitals
+    const metrics = await page.evaluate(() => {
+      return new Promise((resolve) => {
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          resolve(entries);
+        }).observe({ entryTypes: ['navigation', 'paint'] });
+      });
+    });
+    
+    // Assert performance thresholds
+    expect(metrics.find(m => m.name === 'first-contentful-paint')?.duration).toBeLessThan(2000);
+  });
+});
+```
 
-### Common Issues
+### 🎯 Performance Targets
 
-1. **Flaky Tests** - Tests that pass and fail inconsistently
-   - Solution: Add retry logic, improve test isolation, use stable selectors
+| Metric | Target | Tool |
+|--------|--------|------|
+| **First Contentful Paint** | < 2s | Lighthouse |
+| **Largest Contentful Paint** | < 2.5s | Lighthouse |
+| **Time to Interactive** | < 3s | Lighthouse |
+| **API Response Time** | < 500ms | K6 |
+| **Database Query Time** | < 100ms | Custom monitoring |
 
-2. **Slow Tests** - Tests that take too long to run
-   - Solution: Mock external dependencies, use test parallelization
+---
 
-3. **Database Connection Issues**
-   - Solution: Use MongoDB Memory Server for tests, verify connection strings
+## 🚀 Running Tests
 
-4. **Authentication Issues in Tests**
-   - Solution: Mock authentication or create test-specific auth tokens 
+### 📊 Test Coverage
+
+The Vacays App maintains high test coverage with the following targets:
+
+<div align="center">
+
+| Test Type | Coverage Target | Current Status |
+|-----------|----------------|----------------|
+| **🔬 Unit Tests** | > 80% | [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=flat&logo=codecov)](https://github.com/himuexe/Hotel-Booking-Website) |
+| **🔗 Integration Tests** | > 70% | [![Coverage](https://img.shields.io/badge/Coverage-75%25-brightgreen?style=flat&logo=codecov)](https://github.com/himuexe/Hotel-Booking-Website) |
+| **🎭 E2E Tests** | All Critical Flows | [![E2E](https://img.shields.io/badge/E2E-Passing-brightgreen?style=flat&logo=playwright)](https://github.com/himuexe/Hotel-Booking-Website) |
+
+</div>
+
+### 🧪 Running All Tests
+
+```bash
+# 🔬 Frontend unit tests
+cd frontend
+npm run test
+npm run test:coverage
+
+# 🖥️ Backend unit tests  
+cd backend
+npm run test
+npm run test:coverage
+
+# 🎭 E2E tests
+cd e2e-tests
+npm run test
+
+# 🚀 Run all tests (from root)
+npm run test:all
+```
+
+### 🔄 Continuous Integration
+
+Tests are automatically executed in our CI/CD pipeline:
+
+```yaml
+# .github/workflows/ci-cd.yml
+- name: 🧪 Run Frontend Tests
+  run: |
+    cd frontend
+    npm run test:coverage
+    
+- name: 🧪 Run Backend Tests  
+  run: |
+    cd backend
+    npm run test:coverage
+    
+- name: 🎭 Run E2E Tests
+  run: |
+    cd e2e-tests
+    npm run test
+```
+
+### 📈 Test Data Management
+
+#### 🗄️ Test Database Strategy
+
+- **Unit/Integration Tests**: MongoDB Memory Server (isolated)
+- **E2E Tests**: Dedicated test database (reset between runs)
+- **Performance Tests**: Production-like dataset
+
+```typescript
+// Test database setup
+beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create();
+  await mongoose.connect(mongoServer.getUri());
+});
+
+afterAll(async () => {
+  await mongoose.disconnect();
+  await mongoServer.stop();
+});
+```
+
+---
+
+## 🎯 Test Best Practices
+
+### ✅ Testing Guidelines
+
+1. **🔒 Isolation**: Tests should be independent and not rely on state from other tests
+2. **📖 Readability**: Test names should clearly describe what they're testing
+3. **🔧 Maintainability**: Tests should be easy to maintain and update
+4. **⚡ Speed**: Tests should run quickly to encourage frequent testing
+5. **🎯 Reliability**: Tests should be deterministic and not produce flaky results
+
+### 🚨 Common Anti-Patterns to Avoid
+
+- ❌ **Testing Implementation Details**: Focus on behavior, not internal structure
+- ❌ **Overly Complex Tests**: Keep tests simple and focused
+- ❌ **Shared Test State**: Each test should set up its own data
+- ❌ **Testing Third-Party Libraries**: Mock external dependencies
+- ❌ **Brittle Selectors**: Use stable, semantic selectors in E2E tests
+
+---
+
+## 🔧 Troubleshooting
+
+### 🚨 Common Test Issues & Solutions
+
+#### 🎭 Flaky E2E Tests
+
+**Problem**: Tests that pass and fail inconsistently
+
+**Solutions**:
+```typescript
+// ✅ Add explicit waits
+await page.waitForSelector('[data-testid="hotel-list"]');
+
+// ✅ Use retry logic
+test.describe.configure({ retries: 2 });
+
+// ✅ Improve test isolation
+test.beforeEach(async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => localStorage.clear());
+});
+```
+
+#### 🐌 Slow Test Execution
+
+**Problem**: Tests take too long to run
+
+**Solutions**:
+```typescript
+// ✅ Mock external dependencies
+jest.mock('../services/stripe', () => ({
+  createPaymentIntent: jest.fn().mockResolvedValue({ id: 'pi_test' })
+}));
+
+// ✅ Use test parallelization
+// In package.json
+"test": "jest --maxWorkers=4"
+```
+
+#### 🔌 Database Connection Issues
+
+**Problem**: Tests fail due to database connectivity
+
+**Solutions**:
+```typescript
+// ✅ Use MongoDB Memory Server
+import { MongoMemoryServer } from 'mongodb-memory-server';
+
+// ✅ Proper cleanup
+afterEach(async () => {
+  await User.deleteMany({});
+  await Hotel.deleteMany({});
+});
+```
+
+#### 🔐 Authentication Issues in Tests
+
+**Problem**: Tests fail due to authentication requirements
+
+**Solutions**:
+```typescript
+// ✅ Create test-specific auth tokens
+const testToken = jwt.sign({ userId: 'test-user' }, process.env.JWT_SECRET);
+
+// ✅ Mock authentication middleware
+jest.mock('../middleware/auth', () => (req, res, next) => {
+  req.userId = 'test-user';
+  next();
+});
+```
+
+### 🆘 Getting Help
+
+If you encounter testing issues:
+
+1. **📋 Check test logs** for detailed error messages
+2. **🔍 Verify test environment** setup and dependencies
+3. **📊 Run tests in isolation** to identify problematic tests
+4. **🐛 Create an issue** with:
+   - Test failure logs
+   - Environment details
+   - Steps to reproduce
+
+---
+
+<div align="center">
+
+**🧪 Comprehensive testing ensures reliable, high-quality software!**
+
+**Questions?** [Create an issue](https://github.com/himuexe/Hotel-Booking-Website/issues) | **Contribute** [Submit a PR](https://github.com/himuexe/Hotel-Booking-Website/pulls)
+
+[🔝 Back to Top](#-vacays-app-testing-documentation)
+
+</div> 

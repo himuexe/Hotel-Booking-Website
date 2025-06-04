@@ -1,241 +1,329 @@
-# Vacays App Setup Guides
+# 🚀 Vacays Hotel Booking Website - Setup Guide
 
-This document provides detailed setup instructions for different environments (development, testing, and production) for the Vacays Hotel Booking Website.
+> **Complete setup guide for the Vacays Hotel Booking Platform**  
+> Get up and running in minutes with our comprehensive development and production setup instructions
 
-## Prerequisites
+<div align="center">
 
-- Node.js (v18+)
-- npm (v8+)
-- MongoDB Atlas account (cloud database)
-- Docker and Docker Compose (for containerized setup)
-- Git
+[![Setup Guide](https://img.shields.io/badge/Setup-Guide-brightgreen?style=for-the-badge&logo=rocket)](https://github.com/himuexe/Hotel-Booking-Website)
+[![Development](https://img.shields.io/badge/Development-Ready-blue?style=for-the-badge&logo=code)](https://github.com/himuexe/Hotel-Booking-Website)
+[![Production](https://img.shields.io/badge/Production-Ready-success?style=for-the-badge&logo=server)](https://github.com/himuexe/Hotel-Booking-Website)
 
-## Development Environment Setup
+</div>
 
-### Option 1: Local Setup (Without Docker)
+---
 
-#### Frontend Setup
+## 📋 Table of Contents
 
-1. Clone the repository:
+1. [🛠️ Development Environment Setup](#️-development-environment-setup)
+2. [🐳 Docker Environment Setup](#-docker-environment-setup)
+3. [🧪 Testing Environment Setup](#-testing-environment-setup)
+4. [🚀 Production Environment Setup](#-production-environment-setup)
+5. [🔧 Troubleshooting](#-troubleshooting)
+
+---
+
+## 🛠️ Development Environment Setup
+
+### 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
+- **npm** (v8 or higher) - Comes with Node.js
+- **MongoDB** (v6 or higher) - [Download here](https://www.mongodb.com/try/download/community) or use MongoDB Atlas
+- **Git** - [Download here](https://git-scm.com/)
+
+### 🔧 Local Development Setup
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/himuexe/Hotel-Booking-Website.git
+cd Hotel-Booking-Website
+```
+
+#### 2. Install Dependencies
+
+```bash
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+
+# Install e2e test dependencies
+cd ../e2e-tests
+npm install
+```
+
+#### 3. Environment Configuration
+
+Create environment files for both frontend and backend:
+
+**Backend Environment** (`.env` in project root):
+```env
+# 🗄️ Database Configuration
+MONGODB_CONNECTION_STRING=mongodb://localhost:27017/vacays
+# For MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/vacays
+
+# 🔐 Authentication
+JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
+
+# 🌐 Application URLs
+FRONTEND_URL=http://localhost:5173
+
+# ☁️ Cloudinary Configuration (Image Storage)
+CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+CLOUDINARY_API_KEY=your-cloudinary-api-key
+CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+
+# 💳 Stripe Configuration (Payment Processing)
+STRIPE_API_KEY=sk_test_your-stripe-secret-key
+```
+
+**Frontend Environment** (`frontend/.env`):
+```env
+# 🌐 API Configuration
+VITE_API_BASE_URL=http://localhost:7000
+
+# 💳 Stripe Configuration
+VITE_STRIPE_PUB_KEY=pk_test_your-stripe-publishable-key
+```
+
+#### 4. Start Development Servers
+
+```bash
+# Terminal 1: Start Backend Server
+cd backend
+npm run dev
+
+# Terminal 2: Start Frontend Server
+cd frontend
+npm run dev
+```
+
+#### 5. Access Your Application
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:7000
+- **API Documentation**: http://localhost:7000/api-docs
+
+---
+
+## 🐳 Docker Environment Setup
+
+> 💡 **Perfect for**: Quick setup, consistent environments, and production-like development
+
+### 🚀 Quick Docker Setup
+
+1. **Create Environment File**:
    ```bash
-   git clone https://github.com/himuexe/Hotel-Booking-Website.git
-   cd Hotel-Booking-Website
+   touch .env
+   # Edit .env with your configuration (see Environment Configuration above)
    ```
 
-2. Install frontend dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. Create a `.env` file in the frontend directory with the following content:
-   ```
+2. **Configure Environment Variables**:
+   ```env
+   # 🗄️ Database Configuration (Docker)
+   MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
+   MONGO_INITDB_ROOT_USERNAME=admin
+   MONGO_INITDB_ROOT_PASSWORD=password123
+   
+   # 🔐 Authentication
+   JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
+   
+   # 🌐 Application URLs
+   FRONTEND_URL=http://localhost:5173
+   
+   # ☁️ Cloudinary Configuration
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   
+   # 💳 Frontend Configuration
    VITE_API_BASE_URL=http://localhost:7000
    VITE_STRIPE_PUB_KEY=pk_test_your_stripe_publishable_key
    ```
 
-4. Start the frontend development server:
+3. **Start the Application**:
    ```bash
-   npm run dev
+   docker compose up -d
    ```
 
-#### Backend Setup
+4. **Access Your Application**:
+   - **Frontend**: http://localhost:5173 (with hot reload)
+   - **Backend API**: http://localhost:7000 (with nodemon)
+   - **API Documentation**: http://localhost:7000/api-docs
 
-1. Navigate to the backend directory:
-   ```bash
-   cd ../backend
-   ```
+### 🔄 Docker Development Workflow
 
-2. Install backend dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+# 📊 View logs
+docker compose logs -f
 
-3. Create a `.env` file in the backend directory with the following content:
-   ```
-   MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
-   MONGO_INITDB_ROOT_USERNAME=admin
-   MONGO_INITDB_ROOT_PASSWORD=password123
-   JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
-   FRONTEND_URL=http://localhost:5173
-   STRIPE_API_KEY=sk_test_your_stripe_secret_key
-   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   CLOUDINARY_API_KEY=your_cloudinary_api_key
-   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   PORT=7000
-   ```
+# 🔄 Restart specific service
+docker compose restart backend
 
-4. Ensure your MongoDB Atlas connection is configured in backend/.env:
-   ```bash
-   # Linux
-   ```
+# 🔨 Rebuild after code changes
+docker compose up -d --build
 
-5. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
+# 🛑 Stop all services
+docker compose down
 
-### Option 2: Docker Setup (Recommended)
+# 🧹 Clean up (removes volumes)
+docker compose down -v
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/himuexe/Hotel-Booking-Website.git
-   cd Hotel-Booking-Website
-   ```
+---
 
-2. Create a `.env` file in the root directory with the following content:
-   ```
-   MONGODB_CONNECTION_STRING=mongodb://admin:password123@mongodb:27017/vacays?authSource=admin
-   MONGO_INITDB_ROOT_USERNAME=admin
-   MONGO_INITDB_ROOT_PASSWORD=password123
-   JWT_SECRET_KEY=your-super-secret-jwt-key-at-least-32-characters-long
-   FRONTEND_URL=http://localhost:5173
-   STRIPE_API_KEY=sk_test_your_stripe_secret_key
-   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   CLOUDINARY_API_KEY=your_cloudinary_api_key
-   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   VITE_API_BASE_URL=http://localhost:7000
-   VITE_STRIPE_PUB_KEY=pk_test_your_stripe_publishable_key
-   ```
+## 🧪 Testing Environment Setup
 
-3. Start the application using Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
+### 🎯 E2E Testing Setup
 
-4. The application will be available at:
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:7000
-   - API Documentation: http://localhost:7000/api-docs
-
-## Testing Environment Setup
-
-### E2E Testing Setup
-
-1. Navigate to the e2e-tests directory:
+1. **Navigate to E2E Tests Directory**:
    ```bash
    cd e2e-tests
    ```
 
-2. Install dependencies:
+2. **Install Dependencies**:
    ```bash
    npm install
    ```
 
-3. Install Playwright browsers:
+3. **Install Playwright Browsers**:
    ```bash
    npx playwright install
    ```
 
-4. Create a `.env.test` file in the root directory:
-   ```
-   # Note: For testing, use a separate test database in your MongoDB Atlas cluster
+4. **Create Test Environment File** (`.env.test` in project root):
+   ```env
+   # 🧪 Testing Configuration
    JWT_SECRET_KEY=test_jwt_secret
    FRONTEND_URL=http://localhost:5173
    STRIPE_API_KEY=your_test_stripe_api_key
    ```
 
-5. Start the application in test mode:
+5. **Start Application for Testing**:
+
+   **Option A: Without Docker**
    ```bash
-   # Without Docker
-   cd ../backend
-   npm run dev
+   # Terminal 1: Backend
+   cd backend && npm run dev
    
-   # In another terminal
-   cd ../frontend
-   npm run dev
-   
-   # With Docker
-   # Note: Use your existing MongoDB Atlas connection for testing
+   # Terminal 2: Frontend  
+   cd frontend && npm run dev
    ```
 
-6. Run the E2E tests:
+   **Option B: With Docker**
+   ```bash
+   # Use your existing MongoDB Atlas connection for testing
+   docker compose up -d
+   ```
+
+6. **Run E2E Tests**:
    ```bash
    npm run test
    ```
 
-### Unit Testing Setup
+### 🔬 Unit Testing Setup
 
 #### Frontend Unit Tests
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+```bash
+# Navigate to frontend directory
+cd frontend
 
-2. Run the unit tests:
-   ```bash
-   npm run test
-   ```
+# Run unit tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
 
 #### Backend Unit Tests
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+```bash
+# Navigate to backend directory
+cd backend
 
-2. Run the unit tests:
-   ```bash
-   npm run test
-   ```
+# Run unit tests
+npm run test
 
-## Production Environment Setup
+# Run tests in watch mode
+npm run test:watch
 
-### Option 1: Containerized Deployment
+# Generate coverage report
+npm run test:coverage
+```
 
-1. Build the production Docker images:
-   ```bash
-   docker-compose -f docker-compose.prod.yml build
-   ```
+---
 
-2. Start the production containers:
-   ```bash
-   docker-compose -f docker-compose.prod.yml up -d
-   ```
+## 🚀 Production Environment Setup
 
-3. The application will be available at:
-   - Frontend: http://localhost (port 80)
-   - Backend API: http://localhost:7000
+### 🐳 Option 1: Containerized Deployment
 
-### Option 2: Cloud Deployment
+#### Build Production Images
+
+```bash
+# Build production Docker images
+docker compose -f docker-compose.prod.yml build
+```
+
+#### Start Production Containers
+
+```bash
+# Start production containers
+docker compose -f docker-compose.prod.yml up -d
+```
+
+#### Access Production Application
+
+- **Frontend**: http://localhost (port 80)
+- **Backend API**: http://localhost:7000
+
+### ☁️ Option 2: Cloud Deployment
 
 #### Prerequisites
 
-- AWS, GCP, or Azure account
-- MongoDB Atlas account (for managed MongoDB)
-- Domain name (optional)
+- **Cloud Account**: AWS, GCP, or Azure account
+- **Database**: MongoDB Atlas account (for managed MongoDB)
+- **Domain**: Domain name (optional)
 
 #### MongoDB Atlas Setup
 
-1. Create a new MongoDB Atlas cluster
-2. Create a database user with appropriate permissions
-3. Whitelist the IP addresses for your application servers
-4. Get the connection string for your application
+1. **Create MongoDB Atlas Cluster**
+2. **Create Database User** with appropriate permissions
+3. **Configure Network Access** (whitelist IP addresses)
+4. **Get Connection String** for your application
 
 #### Frontend Deployment (Vercel/Netlify)
 
-1. Build the frontend for production:
+1. **Build Frontend**:
    ```bash
    cd frontend
    npm run build
    ```
 
-2. Deploy to Vercel/Netlify:
-   - Connect your GitHub repository to Vercel/Netlify
-   - Set up the build settings:
-     - Build command: `npm run build`
-     - Output directory: `dist`
-   - Configure environment variables:
+2. **Deploy to Platform**:
+   - Connect GitHub repository to Vercel/Netlify
+   - Configure build settings:
+     - **Build command**: `npm run build`
+     - **Output directory**: `dist`
+   - Set environment variables:
      - `VITE_API_BASE_URL`: Your backend API URL
      - `VITE_STRIPE_PUB_KEY`: Your Stripe publishable key
 
 #### Backend Deployment (AWS EC2/ECS)
 
-1. Create an EC2 instance or ECS service
-2. Install Docker on the instance
-3. Pull the backend Docker image from your container registry
-4. Run the container with the following environment variables:
+1. **Create Cloud Instance** (EC2 instance or ECS service)
+2. **Install Docker** on the instance
+3. **Deploy Container** with environment variables:
    - `MONGODB_CONNECTION_STRING`: MongoDB Atlas connection string
    - `JWT_SECRET_KEY`: JWT secret key
    - `FRONTEND_URL`: Frontend URL
@@ -244,61 +332,92 @@ This document provides detailed setup instructions for different environments (d
    - `CLOUDINARY_API_KEY`: Cloudinary API key
    - `CLOUDINARY_API_SECRET`: Cloudinary API secret
 
-## Troubleshooting
+---
 
-### Common Issues
+## 🔧 Troubleshooting
 
-1. **Connection refused to MongoDB**
-   - Ensure MongoDB is running
-   - Check the connection string
-   - Verify network connectivity
-   - Check firewall settings
+### 🚨 Common Issues & Solutions
 
-2. **Docker containers not starting**
-   - Check Docker logs: `docker-compose logs`
-   - Ensure ports are not already in use
-   - Verify environment variables
+#### 🔌 Connection Issues
 
-3. **Frontend cannot connect to backend**
-   - Check the `VITE_API_BASE_URL` environment variable
-   - Ensure backend is running
-   - Check CORS configuration
+**MongoDB Connection Refused**
+- ✅ Ensure MongoDB is running
+- ✅ Check the connection string format
+- ✅ Verify network connectivity
+- ✅ Check firewall settings
 
-4. **Authentication issues**
-   - Verify JWT_SECRET_KEY is set correctly
-   - Check token expiration settings
-   - Clear browser cookies and try again
+**Docker Containers Not Starting**
+- ✅ Check Docker logs: `docker compose logs`
+- ✅ Ensure ports are not already in use
+- ✅ Verify environment variables are set
 
-5. **Port already in use**
-   ```bash
-   # Kill processes on ports 5173 and 7000
-   npx kill-port 5173 7000
-   ```
+#### 🌐 Frontend/Backend Communication
 
-6. **Docker permission issues**
-   ```bash
-   sudo usermod -aG docker $USER
-   # Log out and log back in
-   ```
+**Frontend Cannot Connect to Backend**
+- ✅ Check `VITE_API_BASE_URL` environment variable
+- ✅ Ensure backend server is running
+- ✅ Verify CORS configuration
 
-7. **Environment variables not loading**
-   - Ensure `.env` files are in the correct directories
-   - Check that frontend variables are prefixed with `VITE_`
-   - Restart development servers after changing environment variables
+#### 🔐 Authentication Issues
 
-8. **Database connection issues**
-   - Verify MongoDB is running
-   - Check the `MONGODB_CONNECTION_STRING` format
-   - Ensure database credentials are correct
+**JWT Token Problems**
+- ✅ Verify `JWT_SECRET_KEY` is set correctly
+- ✅ Check token expiration settings
+- ✅ Clear browser cookies and try again
 
-9. **API connection issues**
-   - Verify the `VITE_API_BASE_URL` matches your backend URL
-   - Check CORS configuration in backend
-   - Ensure backend is running on the specified port
+#### 🐳 Docker-Specific Issues
 
-### Getting Help
+**Port Already in Use**
+```bash
+# Kill processes on specific ports
+npx kill-port 5173 7000
 
-If you encounter any issues not covered here, please:
-1. Check the project's GitHub issues
-2. Contact the development team
-3. Refer to the troubleshooting guides in the project wiki 
+# Or check what's using the port
+sudo lsof -i :5173
+sudo lsof -i :7000
+```
+
+**Docker Permission Issues**
+```bash
+# Add user to docker group
+sudo usermod -aG docker $USER
+# Log out and log back in
+```
+
+#### ⚙️ Environment Variable Issues
+
+**Variables Not Loading**
+- ✅ Ensure `.env` files are in correct directories
+- ✅ Check frontend variables are prefixed with `VITE_`
+- ✅ Restart development servers after changes
+
+#### 🗄️ Database Issues
+
+**Database Connection Problems**
+- ✅ Verify MongoDB is running
+- ✅ Check `MONGODB_CONNECTION_STRING` format
+- ✅ Ensure database credentials are correct
+
+### 🆘 Getting Help
+
+If you're still experiencing issues:
+
+1. **📋 Check the logs** first: `docker compose logs` or `npm run dev`
+2. **🔍 Verify environment variables**: `docker compose config`
+3. **📊 Check system resources**: `docker system df`
+4. **🐛 Create an issue** on GitHub with:
+   - Error messages and logs
+   - System information (OS, Node.js version, Docker version)
+   - Steps to reproduce the issue
+
+---
+
+<div align="center">
+
+**🚀 Ready to build amazing hotel booking experiences!**
+
+**Questions?** [Create an issue](https://github.com/himuexe/Hotel-Booking-Website/issues) | **Contribute** [Submit a PR](https://github.com/himuexe/Hotel-Booking-Website/pulls)
+
+[🔝 Back to Top](#-vacays-hotel-booking-website---setup-guide)
+
+</div> 
