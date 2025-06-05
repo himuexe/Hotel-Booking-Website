@@ -53,35 +53,72 @@ The Vacays App is a full-stack web application built using the **MERN stack** (M
 
 ## 🏗️ Architecture Diagram
 
-<div align="center">
+### 🌐 System Overview
 
+```mermaid
+graph TB
+    subgraph "🌐 Client Layer"
+        FE[🎨 Frontend<br/>React SPA<br/>Port: 5173]
+    end
+    
+    subgraph "🖥️ Server Layer"
+        BE[🖥️ Backend<br/>Express.js<br/>Port: 7000]
+    end
+    
+    subgraph "🗄️ Data Layer"
+        DB[(🗄️ MongoDB<br/>Database<br/>Port: 27017)]
+    end
+    
+    subgraph "☁️ External Services"
+        CL[☁️ Cloudinary<br/>Image Storage]
+        ST[💳 Stripe<br/>Payment Processing]
+    end
+    
+    FE <-->|RESTful API<br/>HTTPS| BE
+    BE <-->|Mongoose ODM| DB
+    BE <-->|Image Upload| CL
+    FE <-->|Payment Processing| ST
+    
+    style FE fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style BE fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style DB fill:#47A248,stroke:#333,stroke-width:2px,color:#fff
+    style CL fill:#3448C5,stroke:#333,stroke-width:2px,color:#fff
+    style ST fill:#008CDD,stroke:#333,stroke-width:2px,color:#fff
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    🌐 Client Layer                          │
-│                                                             │
-│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
-│   │  Frontend   │    │   Backend   │    │   MongoDB   │     │
-│   │ (React SPA) │◄──►│ (Express.js)│◄──►│ (Database)  │     │
-│   │ Port: 5173  │    │ Port: 7000  │    │ Port: 27017 │     │
-│   └─────────────┘    └─────────────┘    └─────────────┘     │
-│         │                       │                           │
-│         │                       │                           │
-│         ▼                       ▼                           │
-│   ┌─────────────┐    ┌─────────────┐                       │
-│   │ Cloudinary  │    │   Stripe    │                       │
-│   │(Image Store)│    │ (Payments)  │                       │
-│   └─────────────┘    └─────────────┘                       │
-└─────────────────────────────────────────────────────────────┘
-```
-
-</div>
 
 ### 🔄 Communication Flow
 
-1. **🎨 Frontend** ↔️ **🖥️ Backend**: RESTful API calls over HTTPS
-2. **🖥️ Backend** ↔️ **🗄️ Database**: Mongoose ODM for data operations
-3. **🖥️ Backend** ↔️ **☁️ Cloudinary**: Image upload and management
-4. **🎨 Frontend** ↔️ **💳 Stripe**: Payment processing (client-side)
+```mermaid
+sequenceDiagram
+    participant U as 👤 User
+    participant F as 🎨 Frontend
+    participant B as 🖥️ Backend
+    participant D as 🗄️ Database
+    participant C as ☁️ Cloudinary
+    participant S as 💳 Stripe
+    
+    Note over U,S: Hotel Booking Flow
+    
+    U->>F: Search Hotels
+    F->>B: GET /api/hotels/search
+    B->>D: Query Hotels
+    D-->>B: Hotel Results
+    B-->>F: JSON Response
+    F-->>U: Display Hotels
+    
+    U->>F: Select Hotel & Book
+    F->>B: POST /api/hotels/:id/bookings/payment-intent
+    B->>S: Create Payment Intent
+    S-->>B: Client Secret
+    B-->>F: Payment Intent
+    F->>S: Process Payment
+    S-->>F: Payment Confirmation
+    F->>B: POST /api/hotels/:id/bookings
+    B->>D: Create Booking
+    D-->>B: Booking Saved
+    B-->>F: Booking Confirmation
+    F-->>U: Success Message
+```
 
 ---
 
@@ -289,60 +326,130 @@ backend/src/
 
 ### 🏨 Hotel Booking Flow
 
-<div align="center">
-
+```mermaid
+flowchart TD
+    A[👤 User Visits Site] --> B[🔍 Search Hotels]
+    B --> C{🏨 Hotels Found?}
+    C -->|Yes| D[📋 Browse Results]
+    C -->|No| E[😔 No Results]
+    D --> F[🏨 Select Hotel]
+    F --> G[📅 Choose Dates]
+    G --> H[👥 Enter Guest Info]
+    H --> I[💳 Payment Processing]
+    I --> J{💰 Payment Success?}
+    J -->|Yes| K[✅ Booking Confirmed]
+    J -->|No| L[❌ Payment Failed]
+    K --> M[📧 Confirmation Email]
+    L --> I
+    E --> B
+    
+    style A fill:#e1f5fe
+    style K fill:#c8e6c9
+    style L fill:#ffcdd2
+    style M fill:#f3e5f5
 ```
-🔍 Search Hotels → 🏨 Select Hotel → 💳 Payment → ✅ Confirmation
-     │                  │              │           │
-     ▼                  ▼              ▼           ▼
-  Filter by:        View Details    Stripe       Booking
-  • Location        • Images        Payment      Created
-  • Dates          • Amenities     Processing    in DB
-  • Guests         • Price
-  • Price Range
-```
-
-</div>
-
-#### 📋 Detailed Booking Process
-
-1. **🔍 Hotel Search**:
-   ```
-   Frontend → GET /api/hotels/search?location=NYC&checkIn=2024-01-01
-   Backend → Query MongoDB with filters
-   Database → Return matching hotels
-   ```
-
-2. **🏨 Hotel Selection**:
-   ```
-   Frontend → GET /api/hotels/:id
-   Backend → Fetch hotel details with embedded bookings
-   Database → Return hotel document
-   ```
-
-3. **💳 Payment Processing**:
-   ```
-   Frontend → POST /api/hotels/:id/bookings/payment-intent
-   Backend → Create Stripe payment intent
-   Stripe → Return client secret
-   Frontend → Process payment with Stripe Elements
-   ```
-
-4. **✅ Booking Creation**:
-   ```
-   Frontend → POST /api/hotels/:id/bookings
-   Backend → Validate payment and create booking
-   Database → Embed booking in hotel document
-   ```
 
 ### 🏨 Hotel Management Flow
 
-1. **🔐 Authentication**: Hotel owner logs in via `/api/auth/login`
-2. **📤 Hotel Creation**: Owner creates hotel via `/api/my-hotels` with image upload
-3. **☁️ Image Storage**: Backend uploads images to Cloudinary
-4. **💾 Data Storage**: Hotel information stored in MongoDB with Cloudinary URLs
-5. **🔍 Availability**: Hotel becomes searchable and bookable
-6. **✏️ Management**: Owner can view and edit hotels via `/api/my-hotels/:id`
+```mermaid
+flowchart TD
+    A[🏨 Hotel Owner] --> B[🔐 Login/Register]
+    B --> C[📋 Dashboard]
+    C --> D{🎯 Action?}
+    D -->|Create| E[➕ Add New Hotel]
+    D -->|Manage| F[📝 Edit Existing]
+    D -->|View| G[📊 View Bookings]
+    
+    E --> H[📝 Enter Hotel Details]
+    H --> I[📸 Upload Images]
+    I --> J[☁️ Cloudinary Storage]
+    J --> K[💾 Save to Database]
+    K --> L[✅ Hotel Published]
+    
+    F --> M[✏️ Update Details]
+    M --> N[🔄 Save Changes]
+    N --> O[✅ Hotel Updated]
+    
+    G --> P[📋 Booking List]
+    P --> Q[📊 Revenue Analytics]
+    
+    style A fill:#e3f2fd
+    style L fill:#c8e6c9
+    style O fill:#c8e6c9
+    style Q fill:#fff3e0
+```
+
+### 🔄 API Data Flow
+
+```mermaid
+sequenceDiagram
+    participant U as 👤 User
+    participant F as 🎨 Frontend
+    participant B as 🖥️ Backend
+    participant D as 🗄️ MongoDB
+    participant S as 💳 Stripe
+    participant C as ☁️ Cloudinary
+    
+    Note over U,C: Complete Booking Journey
+    
+    rect rgb(240, 248, 255)
+        Note over U,D: 1. Hotel Search
+        U->>F: Search "Hotels in NYC"
+        F->>B: GET /api/hotels/search?city=NYC
+        B->>D: db.hotels.find({city: "NYC"})
+        D-->>B: Hotel Results
+        B-->>F: JSON Response
+        F-->>U: Display Hotel Cards
+    end
+    
+    rect rgb(248, 255, 240)
+        Note over U,D: 2. Hotel Details
+        U->>F: Click Hotel
+        F->>B: GET /api/hotels/:id
+        B->>D: db.hotels.findById(id)
+        D-->>B: Hotel Details + Bookings
+        B-->>F: Hotel Data
+        F-->>U: Show Hotel Page
+    end
+    
+    rect rgb(255, 248, 240)
+        Note over U,S: 3. Payment Processing
+        U->>F: Book Hotel
+        F->>B: POST /api/hotels/:id/bookings/payment-intent
+        B->>S: stripe.paymentIntents.create()
+        S-->>B: Payment Intent + Client Secret
+        B-->>F: Client Secret
+        F->>S: Confirm Payment
+        S-->>F: Payment Success
+    end
+    
+    rect rgb(248, 240, 255)
+        Note over F,D: 4. Booking Creation
+        F->>B: POST /api/hotels/:id/bookings
+        B->>D: Update hotel with new booking
+        D-->>B: Booking Saved
+        B-->>F: Booking Confirmation
+        F-->>U: Success Page
+    end
+```
+
+### 📸 Image Upload Flow
+
+```mermaid
+flowchart LR
+    A[🏨 Hotel Owner] --> B[📝 Create/Edit Hotel]
+    B --> C[📸 Select Images]
+    C --> D[📤 Upload to Frontend]
+    D --> E[🔄 Send to Backend]
+    E --> F[☁️ Upload to Cloudinary]
+    F --> G[🔗 Get Image URLs]
+    G --> H[💾 Save URLs to MongoDB]
+    H --> I[✅ Hotel Saved]
+    
+    style A fill:#e3f2fd
+    style F fill:#e8f5e8
+    style I fill:#c8e6c9
+```
 
 ---
 
@@ -350,63 +457,108 @@ backend/src/
 
 The application is containerized using Docker for consistent deployment across environments:
 
-### 🛠️ Development Environment (`docker-compose.yml`)
+### 🛠️ Development Environment
 
-<div align="center">
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    🐳 Docker Environment                    │
-│                                                             │
-│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
-│   │  Frontend   │    │   Backend   │    │   MongoDB   │     │
-│   │ Port: 5173  │    │ Port: 7000  │    │ Port: 27017 │     │
-│   │ Hot Reload  │    │   Nodemon   │    │  Local DB   │     │
-│   │   + Vite    │    │ + TypeScript│    │ + Auth      │     │
-│   └─────────────┘    └─────────────┘    └─────────────┘     │
-└─────────────────────────────────────────────────────────────┘
-```
-
-</div>
-
-### 🏭 Production Environment (`docker-compose.prod.yml`)
-
-<div align="center">
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  🏭 Production Environment                  │
-│                                                             │
-│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
-│   │  Frontend   │    │   Backend   │    │   MongoDB   │     │
-│   │  Port: 80   │    │ Port: 7000  │    │ Port: 27017 │     │
-│   │ Optimized   │    │ Production  │    │   Storage   │     │
-│   │   Build     │    │   Build     │    │ Persistent  │     │
-│   └─────────────┘    └─────────────┘    └─────────────┘     │
-│                                                             │
-│   ┌─────────────┐    ┌─────────────┐                       │
-│   │ Cloudinary  │    │   Stripe    │                       │
-│   │ (External)  │    │ (External)  │                       │
-│   └─────────────┘    └─────────────┘                       │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "🐳 Docker Development Environment"
+        subgraph "Frontend Container"
+            FE[🎨 Frontend<br/>Vite Dev Server<br/>Port: 5173<br/>Hot Reload ⚡]
+        end
+        
+        subgraph "Backend Container"
+            BE[🖥️ Backend<br/>Nodemon<br/>Port: 7000<br/>TypeScript 🔄]
+        end
+        
+        subgraph "Database Container"
+            DB[(🗄️ MongoDB<br/>Port: 27017<br/>Local Development<br/>Auth Enabled 🔒)]
+        end
+        
+        subgraph "External Services"
+            CL[☁️ Cloudinary<br/>Image Storage]
+            ST[💳 Stripe<br/>Test Mode]
+        end
+    end
+    
+    FE <-->|API Calls| BE
+    BE <-->|Mongoose| DB
+    BE <-->|Image Upload| CL
+    FE <-->|Payment| ST
+    
+    style FE fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style BE fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style DB fill:#47A248,stroke:#333,stroke-width:2px,color:#fff
+    style CL fill:#3448C5,stroke:#333,stroke-width:2px,color:#fff
+    style ST fill:#008CDD,stroke:#333,stroke-width:2px,color:#fff
 ```
 
-</div>
+### 🏭 Production Environment
 
-### 🚀 Deployment Features
+```mermaid
+graph TB
+    subgraph "🏭 Docker Production Environment"
+        subgraph "Frontend Container"
+            FE[🎨 Frontend<br/>Nginx<br/>Port: 80<br/>Optimized Build 🚀]
+        end
+        
+        subgraph "Backend Container"
+            BE[🖥️ Backend<br/>Node.js<br/>Port: 7000<br/>Production Build 📦]
+        end
+        
+        subgraph "Database Container"
+            DB[(🗄️ MongoDB<br/>Port: 27017<br/>Persistent Storage<br/>Replica Set 🔄)]
+        end
+        
+        subgraph "External Services"
+            CL[☁️ Cloudinary<br/>CDN Delivery]
+            ST[💳 Stripe<br/>Live Mode]
+        end
+        
+        subgraph "Monitoring"
+            LOG[📊 Logging<br/>Health Checks]
+        end
+    end
+    
+    FE <-->|HTTPS API| BE
+    BE <-->|Mongoose| DB
+    BE <-->|Image CDN| CL
+    FE <-->|Secure Payment| ST
+    BE --> LOG
+    FE --> LOG
+    DB --> LOG
+    
+    style FE fill:#61DAFB,stroke:#333,stroke-width:3px,color:#000
+    style BE fill:#339933,stroke:#333,stroke-width:3px,color:#fff
+    style DB fill:#47A248,stroke:#333,stroke-width:3px,color:#fff
+    style CL fill:#3448C5,stroke:#333,stroke-width:2px,color:#fff
+    style ST fill:#008CDD,stroke:#333,stroke-width:2px,color:#fff
+    style LOG fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
+```
 
-- **🐳 Multi-stage Builds**: Optimized Docker images for production
-- **🔄 Health Checks**: Built-in health monitoring for all services
-- **📊 Logging**: Centralized logging for debugging and monitoring
-- **🔒 Security**: Non-root containers and minimal attack surface
-- **⚡ Performance**: Optimized builds and efficient resource usage
+### 🚀 Deployment Pipeline
 
-### 🌐 Scaling Considerations
-
-- **📈 Horizontal Scaling**: Frontend and backend can be scaled independently
-- **🗄️ Database Scaling**: MongoDB supports replica sets and sharding
-- **☁️ Cloud Deployment**: Ready for deployment on AWS, GCP, or Azure
-- **🔄 Load Balancing**: Can be deployed behind load balancers for high availability
+```mermaid
+flowchart LR
+    A[👨‍💻 Developer] --> B[📝 Code Commit]
+    B --> C[🔄 GitHub Actions]
+    C --> D[🧪 Run Tests]
+    D --> E{✅ Tests Pass?}
+    E -->|Yes| F[🐳 Build Docker Images]
+    E -->|No| G[❌ Build Failed]
+    F --> H[📦 Push to Registry]
+    H --> I[🚀 Deploy to Production]
+    I --> J[🏥 Health Check]
+    J --> K{🔍 Healthy?}
+    K -->|Yes| L[✅ Deployment Success]
+    K -->|No| M[🔄 Rollback]
+    G --> N[📧 Notify Developer]
+    M --> O[📧 Alert Team]
+    
+    style A fill:#e3f2fd
+    style L fill:#c8e6c9
+    style G fill:#ffcdd2
+    style M fill:#ffcdd2
+```
 
 ---
 

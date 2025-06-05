@@ -31,20 +31,48 @@
 
 The Vacays App follows a comprehensive testing pyramid strategy that ensures reliability and maintainability:
 
-<div align="center">
+### 🏗️ Testing Pyramid
 
+```mermaid
+graph TD
+    subgraph "🎭 E2E Tests (10%)"
+        E1[🛒 Complete Booking Flow]
+        E2[🏨 Hotel Management]
+        E3[🔐 Authentication Journey]
+    end
+    
+    subgraph "🔗 Integration Tests (20%)"
+        I1[🌐 API Endpoints]
+        I2[🗄️ Database Operations]
+        I3[🔄 Component Interactions]
+    end
+    
+    subgraph "🔬 Unit Tests (70%)"
+        U1[⚛️ React Components]
+        U2[🎣 Custom Hooks]
+        U3[🛠️ Utility Functions]
+        U4[📊 Business Logic]
+    end
+    
+    E1 --> I1
+    E2 --> I2
+    E3 --> I3
+    I1 --> U1
+    I2 --> U2
+    I3 --> U3
+    I3 --> U4
+    
+    style E1 fill:#ff6b6b,color:#fff
+    style E2 fill:#ff6b6b,color:#fff
+    style E3 fill:#ff6b6b,color:#fff
+    style I1 fill:#4ecdc4,color:#fff
+    style I2 fill:#4ecdc4,color:#fff
+    style I3 fill:#4ecdc4,color:#fff
+    style U1 fill:#45b7d1,color:#fff
+    style U2 fill:#45b7d1,color:#fff
+    style U3 fill:#45b7d1,color:#fff
+    style U4 fill:#45b7d1,color:#fff
 ```
-        🎭 E2E Tests
-       (User Journeys)
-      ─────────────────
-     🔗 Integration Tests
-    (Component Interactions)
-   ─────────────────────────
-  🔬 Unit Tests (Components & Functions)
- ─────────────────────────────────────
-```
-
-</div>
 
 ### 📊 Testing Levels
 
@@ -55,6 +83,33 @@ The Vacays App follows a comprehensive testing pyramid strategy that ensures rel
 | **🎭 E2E Tests** | Test complete user flows from start to finish | Playwright | ~10% |
 | **♿ Accessibility Tests** | Ensure application is accessible to all users | Lighthouse, axe-core | Ongoing |
 | **⚡ Performance Tests** | Validate application performance under load | Lighthouse, K6 | Ongoing |
+
+### 🔄 Testing Workflow
+
+```mermaid
+flowchart LR
+    A[👨‍💻 Code Changes] --> B[🔬 Unit Tests]
+    B --> C{✅ Pass?}
+    C -->|Yes| D[🔗 Integration Tests]
+    C -->|No| E[🐛 Fix & Retry]
+    E --> B
+    D --> F{✅ Pass?}
+    F -->|Yes| G[🎭 E2E Tests]
+    F -->|No| E
+    G --> H{✅ Pass?}
+    H -->|Yes| I[♿ Accessibility Tests]
+    H -->|No| E
+    I --> J{✅ Pass?}
+    J -->|Yes| K[⚡ Performance Tests]
+    J -->|No| E
+    K --> L{✅ Pass?}
+    L -->|Yes| M[🚀 Deploy]
+    L -->|No| E
+    
+    style A fill:#e3f2fd
+    style M fill:#c8e6c9
+    style E fill:#ffcdd2
+```
 
 ---
 
@@ -667,7 +722,58 @@ test.describe('⚡ Performance Metrics', () => {
 
 ---
 
-## 🚀 Running Tests
+## �� Running Tests
+
+### 🔄 Test Execution Flow
+
+```mermaid
+flowchart TD
+    A[🚀 Start Testing] --> B{🎯 Test Type?}
+    B -->|Unit| C[🔬 Unit Tests]
+    B -->|Integration| D[🔗 Integration Tests]
+    B -->|E2E| E[🎭 E2E Tests]
+    B -->|All| F[🧪 Full Test Suite]
+    
+    C --> C1[⚛️ Frontend Components]
+    C --> C2[🎣 React Hooks]
+    C --> C3[🛠️ Utility Functions]
+    C --> C4[🖥️ Backend APIs]
+    
+    D --> D1[🌐 API Endpoints]
+    D --> D2[🗄️ Database Operations]
+    D --> D3[🔄 Service Integration]
+    
+    E --> E1[🔐 Authentication Flow]
+    E --> E2[🛒 Booking Journey]
+    E --> E3[🏨 Hotel Management]
+    
+    F --> C
+    F --> D
+    F --> E
+    
+    C1 --> G[📊 Generate Coverage]
+    C2 --> G
+    C3 --> G
+    C4 --> G
+    D1 --> G
+    D2 --> G
+    D3 --> G
+    E1 --> H[📋 Test Report]
+    E2 --> H
+    E3 --> H
+    
+    G --> I{✅ Coverage > 80%?}
+    I -->|Yes| J[✅ Tests Passed]
+    I -->|No| K[❌ Improve Coverage]
+    H --> L{✅ All E2E Pass?}
+    L -->|Yes| J
+    L -->|No| M[🐛 Fix E2E Issues]
+    
+    style A fill:#e3f2fd
+    style J fill:#c8e6c9
+    style K fill:#ffcdd2
+    style M fill:#ffcdd2
+```
 
 ### 📊 Test Coverage
 
@@ -705,6 +811,37 @@ npm run test:all
 ```
 
 ### 🔄 Continuous Integration
+
+```mermaid
+flowchart LR
+    A[📝 Code Push] --> B[🔄 GitHub Actions]
+    B --> C[🏗️ Build Environment]
+    C --> D[📦 Install Dependencies]
+    D --> E[🔬 Unit Tests]
+    E --> F{✅ Pass?}
+    F -->|No| G[❌ Build Failed]
+    F -->|Yes| H[🔗 Integration Tests]
+    H --> I{✅ Pass?}
+    I -->|No| G
+    I -->|Yes| J[🎭 E2E Tests]
+    J --> K{✅ Pass?}
+    K -->|No| G
+    K -->|Yes| L[♿ Accessibility Tests]
+    L --> M{✅ Pass?}
+    M -->|No| G
+    M -->|Yes| N[⚡ Performance Tests]
+    N --> O{✅ Pass?}
+    O -->|No| G
+    O -->|Yes| P[🚀 Deploy]
+    
+    G --> Q[📧 Notify Team]
+    P --> R[✅ Success]
+    
+    style A fill:#e3f2fd
+    style R fill:#c8e6c9
+    style G fill:#ffcdd2
+    style Q fill:#ffcdd2
+```
 
 Tests are automatically executed in our CI/CD pipeline:
 

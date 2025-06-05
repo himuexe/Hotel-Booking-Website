@@ -3,9 +3,8 @@
 <div align="center">
 
 [![Documentation](https://img.shields.io/badge/docs-comprehensive-blue?style=for-the-badge&logo=gitbook)](https://github.com/himuexe/Hotel-Booking-Website/tree/main/docs)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](docs/docker-deployment.md)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](docker-deployment.md)
 [![Setup Guide](https://img.shields.io/badge/Setup-Guide-green?style=for-the-badge&logo=rocket)](setup-guides.md)
-[![Testing](https://img.shields.io/badge/Testing-Complete-brightgreen?style=for-the-badge&logo=checkmarx)](testing.md)
 
 **Comprehensive documentation for the Vacays hotel booking platform**
 
@@ -15,47 +14,33 @@
 
 ## 🚀 Quick Start
 
-> **New to the project?** Follow this path to get up and running quickly:
+> **New to the project?** Follow this path:
 
 <div align="center">
 
 | Step | Guide | Time | Description |
 |:----:|-------|:----:|-------------|
-| **1** | [🛠️ Setup Guide](setup-guides.md) | 10 min | Get your development environment running |
-| **2** | [🏗️ Architecture](architecture.md) | 5 min | Understand the system design |
-| **3** | [🐳 Docker Deployment](docker-deployment.md) | 2 min | Deploy with one command |
+| **1** | [🛠️ Development Setup](setup-guides.md) | 10 min | Local development environment |
+| **2** | [🏗️ Architecture Overview](architecture.md) | 5 min | Understand system design |
+| **3** | [🐳 Docker Deployment](docker-deployment.md) | 5 min | Deploy with containers |
 
 </div>
 
 ---
 
-## 📖 Documentation Categories
+## 📖 Documentation Guide
 
 ### 🛠️ Development & Setup
 
-<div align="center">
+| 📋 Document | 📝 Description | 👥 Best For |
+|-------------|----------------|-------------|
+| **[🛠️ Development Setup](setup-guides.md)** | Local development environment setup | New developers |
+| **[🏗️ Architecture](architecture.md)** | System design and component overview | Understanding codebase |
+| **[🧪 Testing Guide](testing.md)** | Comprehensive testing documentation | Quality assurance |
+| **[🐳 Docker Deployment](docker-deployment.md)** | Complete containerized deployment | All deployment scenarios |
+| **[🚀 CI/CD Setup](ci-cd-setup.md)** | Automated deployment pipelines | DevOps engineers |
 
-| 📋 Document | 📝 Description | 👥 Best For | ⏱️ Time |
-|-------------|----------------|-------------|---------|
-| **[🛠️ Setup Guides](setup-guides.md)** | Local development setup instructions | New developers | 10 min |
-| **[🏗️ Architecture](architecture.md)** | System design and component overview | Understanding codebase | 5 min |
-| **[🧪 Testing Guide](testing.md)** | Comprehensive testing documentation | Quality assurance | 15 min |
-
-</div>
-
-### 🚀 Deployment & Operations
-
-<div align="center">
-
-| 📋 Document | 📝 Description | 👥 Best For | 💰 Cost |
-|-------------|----------------|-------------|---------|
-| **[🐳 Docker Deployment](docker-deployment.md)** | Complete Docker deployment guide | All deployment scenarios | Free |
-
-</div>
-
-### 🔧 Technical References
-
-<div align="center">
+### 🎯 Quick Access
 
 | 📋 Resource | 📝 Description | 🔗 Access |
 |-------------|----------------|-----------|
@@ -63,150 +48,172 @@
 | **[🔧 Environment Setup](docker-deployment.md#-environment-configuration)** | Configuration reference | Documentation |
 | **[🛠️ Troubleshooting](docker-deployment.md#️-troubleshooting)** | Common issues and solutions | Documentation |
 
-</div>
-
 ---
 
-## 🎯 Use Case Guides
+## 🎯 Role-Based Guides
 
 ### 👨‍💻 For Developers
 
-> **Getting Started Path:**
-
 ```mermaid
-graph LR
-    A[📖 Read Architecture] --> B[🛠️ Setup Environment]
-    B --> C[🧪 Run Tests]
-    C --> D[🚀 Start Coding]
+flowchart LR
+    A[👨‍💻 Developer] --> B[🛠️ Setup Environment]
+    B --> C[🏗️ Understand Architecture]
+    C --> D[🧪 Run Tests]
+    D --> E[🔄 Development Workflow]
+    
+    B --> B1[📖 Setup Guides]
+    C --> C1[📊 Architecture Docs]
+    D --> D1[🧪 Testing Guide]
+    E --> E1[🐳 Docker Development]
+    
+    style A fill:#e3f2fd
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+    style E1 fill:#c8e6c9
 ```
 
-1. **📖 Understand the System**: Read [Architecture Overview](architecture.md)
-2. **🛠️ Setup Environment**: Follow [Setup Guides](setup-guides.md)
-3. **🧪 Quality Practices**: Review [Testing Guide](testing.md)
-4. **🐳 Deploy Locally**: Use [Docker Deployment](docker-deployment.md)
+**Getting Started Path:**
+1. **📖 Understand the System**: [Architecture Overview](architecture.md)
+2. **🛠️ Setup Environment**: [Development Setup](setup-guides.md)
+3. **🧪 Quality Practices**: [Testing Guide](testing.md)
+4. **🐳 Deploy Locally**: [Docker Deployment](docker-deployment.md)
 
 ### 🚀 For DevOps Engineers
 
-> **Deployment Path:**
-
 ```mermaid
-graph LR
-    A[📋 Plan Deployment] --> B[🐳 Docker Setup]
-    B --> C[🌐 Production Deploy]
-    C --> D[📊 Monitor]
+flowchart LR
+    A[🚀 DevOps Engineer] --> B[🐳 Docker Deployment]
+    B --> C[🔄 CI/CD Setup]
+    C --> D[📊 Monitoring]
+    D --> E[🔧 Troubleshooting]
+    
+    B --> B1[📖 Docker Guide]
+    C --> C1[⚙️ CI/CD Setup]
+    D --> D1[🏥 Health Checks]
+    E --> E1[🛠️ Debug Tools]
+    
+    style A fill:#e3f2fd
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+    style E1 fill:#c8e6c9
 ```
 
-1. **📋 Plan Deployment**: Review [Docker Deployment Guide](docker-deployment.md)
-2. **🔧 Environment Setup**: Configure [Environment Variables](docker-deployment.md#-environment-configuration)
-3. **🚀 Deploy**: Follow [Production Deployment](docker-deployment.md#-production-deployment)
-4. **🛠️ Troubleshoot**: Use [Troubleshooting Guide](docker-deployment.md#️-troubleshooting)
+**Deployment Path:**
+1. **📋 Plan Deployment**: [Docker Deployment Guide](docker-deployment.md)
+2. **🔧 Environment Setup**: [Environment Variables](docker-deployment.md#-environment-configuration)
+3. **🚀 Automate**: [CI/CD Setup](ci-cd-setup.md)
+4. **🛠️ Troubleshoot**: [Troubleshooting Guide](docker-deployment.md#️-troubleshooting)
 
 ### 📊 For Project Managers
 
-> **Project Overview Path:**
+```mermaid
+flowchart LR
+    A[📊 Project Manager] --> B[🎯 Project Overview]
+    B --> C[🏗️ Architecture Understanding]
+    C --> D[📈 Progress Tracking]
+    D --> E[🚀 Deployment Status]
+    
+    B --> B1[📖 Main README]
+    C --> C1[📊 Architecture Overview]
+    D --> D1[🧪 Testing Status]
+    E --> E1[🐳 Deployment Guide]
+    
+    style A fill:#e3f2fd
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+    style E1 fill:#c8e6c9
+```
 
-1. **📖 Project Summary**: Start with main [README](../README.md)
-2. **🏗️ Technical Scope**: Review [Architecture](architecture.md)
-3. **🧪 Quality Processes**: Check [Testing Guide](testing.md)
-4. **💰 Deployment Costs**: See [Free Hosting Options](docker-deployment.md#-free-hosting-options)
+**Project Overview Path:**
+1. **📖 Project Summary**: [Main README](../README.md)
+2. **🏗️ Technical Scope**: [Architecture](architecture.md)
+3. **🧪 Quality Processes**: [Testing Guide](testing.md)
 
 ---
 
-## 🔗 Cross-References
-
-### 📚 Related Documentation
-
-<div align="center">
-
-| 📄 Document | 📝 Description | 🔗 Link |
-|-------------|----------------|---------|
-| **Main README** | Project overview and quick start | [../README.md](../README.md) |
-| **License** | MIT License details | [../LICENSE](../LICENSE) |
-
-</div>
-
-### 🌐 External Resources
-
-<div align="center">
+## 🌐 External Resources
 
 | 🛠️ Service | 📝 Purpose | 💰 Cost | 🔗 Setup Guide |
 |-------------|------------|---------|----------------|
-| **MongoDB Atlas** | Free Database | $0/month | [Environment Setup](docker-deployment.md#-environment-configuration) |
-| **Railway** | Docker Hosting | $5 credit/month | [Free Hosting](docker-deployment.md#-option-a-railway-recommended) |
-| **Render** | Docker Hosting | Free tier | [Free Hosting](docker-deployment.md#-option-b-render) |
-| **DigitalOcean** | VPS Hosting | $4/month | [Free Hosting](docker-deployment.md#-option-c-digitalocean-app-platform) |
-
-</div>
-
----
-
-## 📊 Documentation Status
-
-<div align="center">
-
-| 📄 Document | ✅ Status | 📅 Updated | 📊 Completeness | 🎯 Focus |
-|-------------|-----------|------------|-----------------|----------|
-| [🛠️ Setup Guides](setup-guides.md) | ✅ Complete | Current | 100% | Development |
-| [🏗️ Architecture](architecture.md) | ✅ Complete | Current | 100% | System Design |
-| [🧪 Testing Guide](testing.md) | ✅ Complete | Current | 100% | Quality |
-| [🐳 Docker Deployment](docker-deployment.md) | ✅ Complete | Current | 100% | Deployment |
-
-</div>
+| **MongoDB Atlas** | Database hosting | Free tier | [Environment Setup](docker-deployment.md#-environment-configuration) |
+| **Railway** | Docker hosting | $5 credit/month | [Docker Deployment](docker-deployment.md) |
+| **Render** | Docker hosting | Free tier | [Docker Deployment](docker-deployment.md) |
 
 ---
 
 ## 🆘 Need Help?
 
-### 🔍 Quick Solutions
-
-<div align="center">
-
 | 🚨 Problem Type | 📖 Solution | ⏱️ Time |
 |-----------------|-------------|---------|
-| **🛠️ Setup Issues** | [Setup Troubleshooting](setup-guides.md) | 5 min |
+| **🛠️ Setup Issues** | [Development Setup](setup-guides.md#-troubleshooting) | 5 min |
 | **🐳 Deployment Problems** | [Docker Troubleshooting](docker-deployment.md#️-troubleshooting) | 10 min |
-| **🧪 Testing Problems** | [Testing Issues](testing.md) | 5 min |
+| **🧪 Testing Problems** | [Testing Guide](testing.md) | 5 min |
 | **🏗️ Architecture Questions** | [Architecture Guide](architecture.md) | 5 min |
-
-</div>
 
 ### 📞 Getting Support
 
-> **Follow this escalation path:**
-
 1. **🔍 Search Documentation**: Use `Ctrl+F` to search within documents
-2. **📋 Check Issues**: Review [GitHub Issues](https://github.com/himuexe/Hotel-Booking-Website/issues)
+2. **📋 Check Issues**: [GitHub Issues](https://github.com/himuexe/Hotel-Booking-Website/issues)
 3. **🆕 Create Issue**: [Report a problem](https://github.com/himuexe/Hotel-Booking-Website/issues/new)
-4. **💬 Community**: Join discussions in the repository
 
 ---
 
-## 🔄 Documentation Updates
+## 📊 Documentation Status
 
-> **This documentation is actively maintained and follows our consolidation strategy**
-
-### 📈 Recent Improvements
-
-- ✅ **Consolidated Deployment Docs**: 3 files → 1 comprehensive Docker guide
-- ✅ **Enhanced Visual Design**: Added emojis, badges, and tables
-- ✅ **Docker-First Approach**: Focused on containerized deployment
-- ✅ **Free Hosting Focus**: Removed paid service dependencies
-
-### 🔔 Stay Updated
-
-- 🔗 **Follow the Repository**: [Hotel-Booking-Website](https://github.com/himuexe/Hotel-Booking-Website)
-- 📝 **Check Recent Commits**: Review documentation changes
-- 🔔 **Enable Notifications**: Get updates on new releases
+| 📄 Document | ✅ Status | 📊 Completeness |
+|-------------|-----------|-----------------|
+| [🛠️ Development Setup](setup-guides.md) | ✅ Complete | 100% |
+| [🏗️ Architecture](architecture.md) | ✅ Complete | 100% |
+| [🧪 Testing Guide](testing.md) | ✅ Complete | 100% |
+| [🐳 Docker Deployment](docker-deployment.md) | ✅ Complete | 100% |
+| [🚀 CI/CD Setup](ci-cd-setup.md) | ✅ Complete | 100% |
 
 ---
+
+## 📚 Complete Documentation Map
+
+### 🗺️ Documentation Structure
+
+```mermaid
+mindmap
+  root((📚 Vacays Docs))
+    🏠 Main README
+      ✨ Features Overview
+      🛠️ Technology Stack
+      🚀 Quick Start
+      📖 Documentation Links
+    🛠️ Development
+      📋 Setup Guides
+        🔧 Local Environment
+        🐳 Docker Development
+        🔄 Development Workflow
+      🧪 Testing Guide
+        🔬 Unit Tests
+        🔗 Integration Tests
+        🎭 E2E Tests
+        ⚡ Performance Tests
+    🏗️ Architecture
+      🌐 System Overview
+      📊 Data Flow
+      🗄️ Database Schema
+      🌐 API Endpoints
+    🚀 Deployment
+      🐳 Docker Deployment
+        🛠️ Development Setup
+        🏭 Production Deploy
+        📈 Scaling Strategy
+      🔄 CI/CD Setup
+        🧪 Testing Pipeline
+        🔒 Security Monitoring
+        📊 Deployment Automation
+```
 
 <div align="center">
 
-**📝 Documentation Feedback**
-
-Can't find what you're looking for? Help us improve!
-
-[🐛 Report Issue](https://github.com/himuexe/Hotel-Booking-Website/issues/new) • [💡 Suggest Improvement](https://github.com/himuexe/Hotel-Booking-Website/issues/new) • [⭐ Star the Project](https://github.com/himuexe/Hotel-Booking-Website)
+**📚 Well-organized documentation enables faster development!**
 
 [🔝 Back to Top](#-vacays-documentation-hub)
 

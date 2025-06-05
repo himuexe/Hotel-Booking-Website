@@ -30,6 +30,93 @@
 
 The project includes two main automated workflows that ensure code quality, security, and reliable deployments:
 
+### 🔄 Complete CI/CD Pipeline Flow
+
+```mermaid
+flowchart TD
+    A[👨‍💻 Developer Push] --> B{🌿 Branch?}
+    B -->|develop| C[🧪 Staging Pipeline]
+    B -->|main| D[🏭 Production Pipeline]
+    
+    C --> C1[🔬 Run Tests]
+    C1 --> C2[🔒 Security Scan]
+    C2 --> C3[🐳 Build Images]
+    C3 --> C4[🚀 Deploy Staging]
+    C4 --> C5[🎭 E2E Tests]
+    C5 --> C6{✅ Tests Pass?}
+    C6 -->|Yes| C7[✅ Staging Ready]
+    C6 -->|No| C8[❌ Rollback]
+    
+    D --> D1[🔬 Run Tests]
+    D1 --> D2[🔒 Security Scan]
+    D2 --> D3[🐳 Build Images]
+    D3 --> D4[👥 Manual Approval]
+    D4 --> D5[🚀 Deploy Production]
+    D5 --> D6[🏥 Health Check]
+    D6 --> D7{✅ Healthy?}
+    D7 -->|Yes| D8[✅ Production Live]
+    D7 -->|No| D9[🔄 Rollback]
+    
+    style A fill:#e3f2fd
+    style C7 fill:#c8e6c9
+    style D8 fill:#c8e6c9
+    style C8 fill:#ffcdd2
+    style D9 fill:#ffcdd2
+```
+
+### 🏗️ Pipeline Architecture
+
+```mermaid
+graph LR
+    subgraph "🧪 Testing Stage"
+        T1[🔬 Unit Tests]
+        T2[🔗 Integration Tests]
+        T3[🎭 E2E Tests]
+        T4[🔒 Security Audit]
+    end
+    
+    subgraph "🔨 Building Stage"
+        B1[🐳 Docker Images]
+        B2[📦 Artifacts]
+        B3[🛡️ Security Scan]
+        B4[📊 Bundle Analysis]
+    end
+    
+    subgraph "🚀 Deployment Stage"
+        D1[🧪 Staging Deploy]
+        D2[🏭 Production Deploy]
+        D3[🏥 Health Checks]
+        D4[📊 Monitoring]
+    end
+    
+    T1 --> B1
+    T2 --> B1
+    T3 --> B2
+    T4 --> B3
+    
+    B1 --> D1
+    B2 --> D1
+    B3 --> D2
+    B4 --> D2
+    
+    D1 --> D3
+    D2 --> D3
+    D3 --> D4
+    
+    style T1 fill:#ff6b6b,color:#fff
+    style T2 fill:#ff6b6b,color:#fff
+    style T3 fill:#ff6b6b,color:#fff
+    style T4 fill:#ff6b6b,color:#fff
+    style B1 fill:#4ecdc4,color:#fff
+    style B2 fill:#4ecdc4,color:#fff
+    style B3 fill:#4ecdc4,color:#fff
+    style B4 fill:#4ecdc4,color:#fff
+    style D1 fill:#45b7d1,color:#fff
+    style D2 fill:#45b7d1,color:#fff
+    style D3 fill:#45b7d1,color:#fff
+    style D4 fill:#45b7d1,color:#fff
+```
+
 <div align="center">
 
 | Workflow | Purpose | Trigger | Status |
@@ -39,16 +126,25 @@ The project includes two main automated workflows that ensure code quality, secu
 
 </div>
 
-### 🏗️ Pipeline Architecture
+### 🔒 Security Monitoring Workflow
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   🧪 Testing    │───►│   🔨 Building   │───►│  🚀 Deployment  │
-│                 │    │                 │    │                 │
-│ • Unit Tests    │    │ • Docker Images │    │ • Staging       │
-│ • Integration   │    │ • Artifacts     │    │ • Production    │
-│ • E2E Tests     │    │ • Security Scan │    │ • Health Check  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+```mermaid
+flowchart TD
+    A[⏰ Daily Schedule<br/>2 AM UTC] --> B[🛡️ Security Audit]
+    B --> C[📦 Dependency Check]
+    C --> D[🐳 Docker Scan]
+    D --> E[📊 Performance Analysis]
+    E --> F[🏥 Health Monitoring]
+    F --> G{🚨 Issues Found?}
+    G -->|Yes| H[📧 Alert Team]
+    G -->|No| I[✅ All Clear]
+    H --> J[📋 Create Issues]
+    I --> K[📊 Update Dashboard]
+    
+    style A fill:#e3f2fd
+    style I fill:#c8e6c9
+    style H fill:#ffcdd2
+    style J fill:#ffcdd2
 ```
 
 ---

@@ -30,6 +30,34 @@
 
 > 💡 **Prerequisites**: Docker and Docker Compose installed on your system
 
+### 🎯 Deployment Process Overview
+
+```mermaid
+flowchart TD
+    A[🚀 Start Deployment] --> B[📋 Check Prerequisites]
+    B --> C{🐳 Docker Installed?}
+    C -->|No| D[📥 Install Docker]
+    C -->|Yes| E[📂 Clone Repository]
+    D --> E
+    E --> F[🔧 Configure Environment]
+    F --> G{🎯 Deployment Type?}
+    G -->|Development| H[🛠️ Development Setup]
+    G -->|Production| I[🏭 Production Setup]
+    
+    H --> H1[🔄 docker compose up -d]
+    H1 --> H2[🌐 Access on :5173]
+    H2 --> J[✅ Development Ready]
+    
+    I --> I1[🔄 docker compose -f docker-compose.prod.yml up -d --build]
+    I1 --> I2[🌐 Access on :80]
+    I2 --> K[✅ Production Ready]
+    
+    style A fill:#e3f2fd
+    style J fill:#c8e6c9
+    style K fill:#c8e6c9
+    style D fill:#fff3e0
+```
+
 ### ⚡ One-Command Deployment
 
 ```bash
@@ -57,6 +85,27 @@ docker compose -f docker-compose.prod.yml up -d --build
 ---
 
 ## 🛠️ Development Setup
+
+### 🔧 Development Workflow
+
+```mermaid
+flowchart LR
+    A[👨‍💻 Developer] --> B[📝 Code Changes]
+    B --> C[🔄 Hot Reload]
+    C --> D[🧪 Test Changes]
+    D --> E{✅ Working?}
+    E -->|Yes| F[📝 Commit]
+    E -->|No| G[🐛 Debug]
+    G --> H[🔍 Check Logs]
+    H --> I[🛠️ Fix Issues]
+    I --> B
+    F --> J[🚀 Deploy]
+    
+    style A fill:#e3f2fd
+    style F fill:#c8e6c9
+    style G fill:#ffcdd2
+    style J fill:#e8f5e8
+```
 
 ### 🔧 Local Development with Docker
 
@@ -113,6 +162,78 @@ docker stats
 
 ## 🚀 Production Deployment
 
+### 🏭 Production Deployment Flow
+
+```mermaid
+flowchart TD
+    A[🏭 Production Deployment] --> B[🔧 Environment Setup]
+    B --> C[📝 Configure .env]
+    C --> D[🔒 Security Check]
+    D --> E{🛡️ Secure?}
+    E -->|No| F[🔐 Fix Security Issues]
+    E -->|Yes| G[🐳 Build Images]
+    F --> D
+    G --> H[🚀 Deploy Stack]
+    H --> I[🏥 Health Checks]
+    I --> J{✅ Healthy?}
+    J -->|No| K[🔄 Rollback]
+    J -->|Yes| L[📊 Monitor]
+    K --> M[🐛 Debug Issues]
+    M --> G
+    L --> N[✅ Production Live]
+    
+    style A fill:#e3f2fd
+    style N fill:#c8e6c9
+    style F fill:#ffcdd2
+    style K fill:#ffcdd2
+```
+
+### 📈 Scaling Strategy
+
+```mermaid
+graph TB
+    subgraph "🔄 Load Balancing"
+        LB[⚖️ Load Balancer]
+    end
+    
+    subgraph "🎨 Frontend Tier"
+        FE1[Frontend 1]
+        FE2[Frontend 2]
+        FE3[Frontend 3]
+    end
+    
+    subgraph "🖥️ Backend Tier"
+        BE1[Backend 1]
+        BE2[Backend 2]
+        BE3[Backend 3]
+    end
+    
+    subgraph "🗄️ Database Tier"
+        DB[(MongoDB<br/>Replica Set)]
+    end
+    
+    LB --> FE1
+    LB --> FE2
+    LB --> FE3
+    
+    FE1 --> BE1
+    FE2 --> BE2
+    FE3 --> BE3
+    
+    BE1 --> DB
+    BE2 --> DB
+    BE3 --> DB
+    
+    style LB fill:#FF6B6B,color:#fff
+    style FE1 fill:#61DAFB,color:#000
+    style FE2 fill:#61DAFB,color:#000
+    style FE3 fill:#61DAFB,color:#000
+    style BE1 fill:#339933,color:#fff
+    style BE2 fill:#339933,color:#fff
+    style BE3 fill:#339933,color:#fff
+    style DB fill:#47A248,color:#fff
+```
+
 ### 🏭 Production Docker Compose
 
 For production deployment with optimized settings:
@@ -157,6 +278,27 @@ docker compose -f docker-compose.prod.yml ps
 ```
 
 ### 🔄 Production Updates
+
+```mermaid
+sequenceDiagram
+    participant D as 👨‍💻 Developer
+    participant G as 📂 Git Repository
+    participant CI as 🔄 CI/CD Pipeline
+    participant P as 🏭 Production
+    participant M as 📊 Monitoring
+    
+    D->>G: Push Code Changes
+    G->>CI: Trigger Build
+    CI->>CI: Run Tests
+    CI->>CI: Build Docker Images
+    CI->>P: Deploy New Version
+    P->>P: Health Check
+    P->>M: Report Status
+    M->>D: Deployment Success
+    
+    Note over CI,P: Zero-downtime deployment
+    Note over P,M: Continuous monitoring
+```
 
 ```bash
 # Update application

@@ -17,6 +17,39 @@
 
 ## ✨ Features
 
+### 🎯 Feature Matrix
+
+```mermaid
+mindmap
+  root((🏨 Vacays Platform))
+    🔐 Authentication
+      👤 User Registration
+      🔑 JWT Login
+      🍪 Secure Cookies
+      🔒 Password Hashing
+    🏨 Hotel Management
+      ➕ Create Hotels
+      ✏️ Edit Properties
+      📸 Image Upload
+      📊 Analytics
+    🔍 Search & Discovery
+      🌍 Location Search
+      📅 Date Filtering
+      💰 Price Range
+      ⭐ Star Rating
+      🏷️ Amenities Filter
+    💳 Booking System
+      📋 Guest Information
+      💰 Price Calculation
+      💳 Stripe Payment
+      📧 Confirmation
+    👤 User Experience
+      📱 Mobile Responsive
+      ⚡ Fast Loading
+      ♿ Accessibility
+      🎨 Modern UI
+```
+
 <div align="center">
 
 | 🎨 **Modern UI/UX** | 🔐 **Secure Authentication** | 💳 **Payment Integration** |
@@ -41,6 +74,47 @@
 ---
 
 ## 🛠️ Technology Stack
+
+### 🏗️ Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "🎨 Frontend Layer"
+        FE[React 18.3.1<br/>TypeScript 5.2.2<br/>Vite 5.3.4<br/>Tailwind CSS 3.4.10]
+    end
+    
+    subgraph "🖥️ Backend Layer"
+        BE[Node.js 20+<br/>Express 4.19.2<br/>TypeScript<br/>JWT Auth]
+    end
+    
+    subgraph "🗄️ Data Layer"
+        DB[MongoDB 6.8.0<br/>Mongoose 8.5.1<br/>Schema Validation]
+    end
+    
+    subgraph "☁️ External Services"
+        CL[Cloudinary<br/>Image Storage & CDN]
+        ST[Stripe 17.1.0<br/>Payment Processing]
+    end
+    
+    subgraph "🛠️ DevOps & Tools"
+        DO[Docker<br/>GitHub Actions<br/>Swagger API Docs<br/>ESLint & Prettier]
+    end
+    
+    FE <--> BE
+    BE <--> DB
+    BE <--> CL
+    FE <--> ST
+    DO -.-> FE
+    DO -.-> BE
+    DO -.-> DB
+    
+    style FE fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style BE fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style DB fill:#47A248,stroke:#333,stroke-width:2px,color:#fff
+    style CL fill:#3448C5,stroke:#333,stroke-width:2px,color:#fff
+    style ST fill:#008CDD,stroke:#333,stroke-width:2px,color:#fff
+    style DO fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
+```
 
 <div align="center">
 
@@ -195,21 +269,22 @@ docker compose -f docker-compose.prod.yml ps
 
 <div align="center">
 
-| 📋 **Setup Guides** | 🧪 **Testing** | 🐳 **Docker Deployment** | 🏗️ **Architecture** |
+| 📋 **Development** | 🏗️ **Architecture** | 🐳 **Deployment** | 🧪 **Testing** |
 |:---:|:---:|:---:|:---:|
-| [Development Setup](docs/setup-guides.md) | [Testing Guide](docs/testing.md) | [Docker Deployment](docs/docker-deployment.md) | [Architecture Overview](docs/architecture.md) |
-| Local development setup | Unit, E2E, and performance testing | Complete Docker deployment guide | System design and components |
+| [Development Setup](docs/setup-guides.md) | [Architecture Overview](docs/architecture.md) | [Docker Deployment](docs/docker-deployment.md) | [Testing Guide](docs/testing.md) |
+| Local development environment | System design and components | Complete containerized deployment | Comprehensive testing strategy |
 
 </div>
 
 ### 📚 Documentation Hub
 
-**[📖 Complete Documentation Hub](docs/README.md)** - Organized access to all project documentation
+**[📖 Documentation Hub](docs/README.md)** - Centralized access to all project documentation with role-based guides
 
-### 📚 Additional Resources
+### 🔧 Additional Resources
 
-- **[API Documentation](http://localhost:7000/api-docs)** - Interactive Swagger API docs
-- **[License](LICENSE)** - MIT License details
+- **[🚀 CI/CD Setup](docs/ci-cd-setup.md)** - Automated deployment pipelines
+- **[📊 API Documentation](http://localhost:7000/api-docs)** - Interactive Swagger API docs
+- **[📄 License](LICENSE)** - MIT License details
 
 ---
 
